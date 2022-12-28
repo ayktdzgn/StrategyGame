@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Factory<T> : MonoBehaviour where T: MonoBehaviour
+public abstract class Factory<T> : Singleton<Factory<T>> where T: MonoBehaviour
 {
     [Serializable]
     public struct FactorySettings
@@ -13,15 +13,19 @@ public abstract class Factory<T> : MonoBehaviour where T: MonoBehaviour
     }
 
     [SerializeField] protected Pool<T> _poolPrefab;
-    [SerializeField] protected FactorySettings[] _factorySettings;
+    [SerializeField] private FactorySettings[] _factorySettings;
     Dictionary<string, Pool<T>> poolDic = new Dictionary<string, Pool<T>>();
 
-    void Awake()
+    public Dictionary<string, Pool<T>> PoolDic { get => poolDic; }
+    public FactorySettings[] FactorySettingsArr { get => _factorySettings; }
+
+    public override void Awake()
     {
+        base.Awake();
         for (int i = 0; i < _factorySettings.Length; i++)
         {
             var _pool = Instantiate(_poolPrefab, transform);
-            _pool.name = _factorySettings[i].productPrefab.name + " Pool";
+            _pool.name = _factorySettings[i].productPrefab.name;
             _pool.Init(_factorySettings[i].productPrefab, _factorySettings[i].count);
 
             poolDic.Add(_pool.name, _pool.GetComponent<Pool<T>>());

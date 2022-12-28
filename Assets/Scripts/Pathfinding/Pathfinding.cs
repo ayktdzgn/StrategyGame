@@ -14,6 +14,8 @@ public class Pathfinding:Singleton<Pathfinding>
     private const int MOVE_STRAIGHT_COST = 10;
     private const int MOVE_DIAGONAL_COST = 14;
 
+    public GenericGrid<Tile> Grid => grid;
+
     public Pathfinding(int width, int height, float cellSize, Vector3 originPosition)
     {
         Instance = this;

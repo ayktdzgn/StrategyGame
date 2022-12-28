@@ -100,6 +100,7 @@ public class InfiniteScroll : MonoBehaviour, IBeginDragHandler, IDragHandler, IS
         for (int i = 0; i < _rtChildren.Length; i++)
         {
             Vector2 childPos = _rtChildren[i].localPosition;
+            childPos = Vector2.zero;
             childPos.y = originY - (posOffset - _itemSpacing) - i * (_childHeight + 2 * _itemSpacing);
             _rtChildren[i].localPosition = childPos;
         }
