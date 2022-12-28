@@ -28,7 +28,34 @@ public class Pathfinding:Singleton<Pathfinding>
         return grid.GetGridObject(x, y);
     }
 
-    public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
+    public bool GetClickedTileBuildAvailability(int x, int y)
+    {
+        var tile = grid.GetGridObject(x, y);
+        return tile.isBuildable;
+    }
+
+        public void SetTileNotBuildable(int x, int y)
+        {
+            var tile = grid.GetGridObject(x, y);
+            tile.isBuildable = false;
+        }
+        public void SetTileNotWalkable(int x, int y)
+        {
+            var tile = grid.GetGridObject(x, y);
+            tile.isWalkable = false;
+        }
+        public void SetTileBuildable(int x, int y)
+        {
+            var tile = grid.GetGridObject(x, y);
+            tile.isBuildable = true;
+        }
+        public void SetTileWalkable(int x, int y)
+        {
+            var tile = grid.GetGridObject(x, y);
+            tile.isWalkable = true;
+        }
+
+        public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
     {
         grid.GetXY(startWorldPosition, out int startX, out int startY);
         grid.GetXY(endWorldPosition, out int endX, out int endY);

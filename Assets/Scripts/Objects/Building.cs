@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] int _width;
+    [SerializeField] int _height;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int Width => _width;
+    public int Height => _height;
 }

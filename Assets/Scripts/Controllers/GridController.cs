@@ -15,7 +15,6 @@ public class GridController : MonoBehaviour
     {
         Vector3 orginPos = new Vector3(0 - Mathf.RoundToInt(_gridSize.x / 2) * _cellSize, 0 - Mathf.RoundToInt(_gridSize.y / 2) * _cellSize, 0);
         _pathfindingGrid = new Pathfinding(_gridSize.x, _gridSize.y, _cellSize, orginPos);
-        Debug.Log(_pathfindingGrid.Grid.GetWidth());
         GenerateGridTiles(factoryController);
     }
 
@@ -27,6 +26,37 @@ public class GridController : MonoBehaviour
             {
                 var tile = factoryController.TileFactory.GetNewProduct("Tile");
                 tile.transform.position = _pathfindingGrid.Grid.GetWorldPosition(x, y);
+            }
+        }
+    }
+
+    public bool GetGridAvailability(int width, int height)
+    {
+        Vector2 mouseWorldPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _pathfindingGrid.Grid.GetGridObjectNo(mouseWorldPosition, out int x, out int y);
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (!_pathfindingGrid.GetClickedTileBuildAvailability((int)(x + i), (int)(y + j)))
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public void SetGridBuilt(int width, int height)
+    {
+        Vector2 mouseWorldPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _pathfindingGrid.Grid.GetGridObjectNo(mouseWorldPosition, out int x, out int y);
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                _pathfindingGrid.SetTileNotBuildable((int)(x + i), (int)(y + j));
+                _pathfindingGrid.SetTileNotWalkable((int)(x + i), (int)(y + j));
             }
         }
     }
