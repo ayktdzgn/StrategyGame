@@ -30,10 +30,10 @@ public class GridController : MonoBehaviour
         }
     }
 
-    public bool GetGridAvailability(int width, int height)
+    public bool GetGridAvailability(Vector2 pos,int width, int height)
     {
-        Vector2 mouseWorldPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _pathfindingGrid.Grid.GetGridObjectNo(mouseWorldPosition, out int x, out int y);
+        //Vector2 mouseWorldPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _pathfindingGrid.Grid.GetGridObjectNo(pos, out int x, out int y);
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -47,10 +47,10 @@ public class GridController : MonoBehaviour
         return true;
     }
 
-    public void SetGridBuilt(int width, int height)
+    public void SetGridBuilt(Vector2 pos,int width, int height)
     {
-        Vector2 mouseWorldPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _pathfindingGrid.Grid.GetGridObjectNo(mouseWorldPosition, out int x, out int y);
+        //Vector2 mouseWorldPosition = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _pathfindingGrid.Grid.GetGridObjectNo(pos, out int x, out int y);
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)

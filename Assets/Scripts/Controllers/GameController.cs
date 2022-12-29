@@ -11,6 +11,7 @@ public class GameController : Singleton<GameController>
     InputController _inputController;
 
     public GridController GridController => _gridController;
+    public InputController InputController => _inputController;
 
     private void Start()
     {
