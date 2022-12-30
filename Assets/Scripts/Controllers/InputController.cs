@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class InputController : MonoBehaviour
 {
+    [SerializeField] LayerMask _layerMask;
     bool _isCarryingBuilding = false;
     Building _building;
 
@@ -20,31 +21,25 @@ public class InputController : MonoBehaviour
 
     public void InputUpdate()
     {
+        Vector2 raycastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.Raycast(raycastPosition, Vector2.zero, _layerMask);
+
+        if (hit.collider == null || EventSystem.current.IsPointerOverGameObject())
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
-            Vector2 raycastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(raycastPosition, Vector2.zero);
+            PlantBuilding(raycastPosition);
 
-            if (hit.collider != null)
-            {
-                PlantBuilding(raycastPosition);
-
-                var selectableObject = hit.collider.GetComponent<ISelectable>();
-                if (OnObjectSelected != null)
-                    OnObjectSelected.Publish(new OnSelectEvent<ISelectable>(selectableObject));
-            }
+            var selectableObject = hit.collider.GetComponent<ISelectable>();
+            if (OnObjectSelected != null)
+                OnObjectSelected.Publish(new OnSelectEvent<ISelectable>(selectableObject));
         }
         if (Input.GetMouseButtonDown(1))
         {
-            Vector2 raycastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(raycastPosition, Vector2.zero);
-
-            if (hit.collider != null)
-            {
-                var pos = new Vector2Int(Mathf.RoundToInt(raycastPosition.x), Mathf.RoundToInt(raycastPosition.y));
-                if(OnGetPointPosition != null)
-                    onGetPointPosition.Publish(pos);              
-            }
+            var pos = new Vector2Int(Mathf.RoundToInt(raycastPosition.x), Mathf.RoundToInt(raycastPosition.y));
+            if (OnGetPointPosition != null)
+                onGetPointPosition.Publish(pos);
         }
     }
 

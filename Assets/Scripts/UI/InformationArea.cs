@@ -25,18 +25,18 @@ public class InformationArea : MonoBehaviour
         _childArr = new Transform[0];
     }
 
-    public void SetInformationArea(Sprite sprite, string name, IProduct[] products = null)
+    public void SetInformationArea(ISelectable selectable, IProduct[] products = null)
     {
-        _informationImage.sprite = sprite;
-        _informationName.text = name;
+        _informationImage.sprite = selectable.GetSprite;
+        _informationName.text = selectable.GetName;
         if (products == null) return;
 
         _childArr = new Transform[products.Length];
         for (int i = 0; i < products.Length; i++)
         {
             var button = Instantiate(_productButtonPrefab, _productArea);
-            button.Name = products[i].GetName;
-            button.SetProductImage(products[i].GetSprite);
+            button.Product = products[i];
+            button.SelectedObject = selectable;
 
             _childArr[i] = button.transform;
         }

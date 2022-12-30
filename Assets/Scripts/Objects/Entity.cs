@@ -17,4 +17,10 @@ public abstract class Entity : MonoBehaviour
     public Sprite GetSprite { get => _sprite; }
     public string GetName { get => _name; }
 
+    protected SpriteRenderer _spriteRenderer;
+
+    protected void Awake()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 }

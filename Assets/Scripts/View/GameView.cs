@@ -38,17 +38,17 @@ public class GameView : MonoBehaviour
         if(e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
 
         IProduct[] products = null;
-        if (e.GenericMessage.selectedObject is IProductable)
-            products = ((IProductable)e.GenericMessage.selectedObject).Products;
+        if (e.GenericMessage.selectedObject is IProducer)
+            products = ((IProducer)e.GenericMessage.selectedObject).Products;
 
-        PassInformationAreaData(e.GenericMessage.selectedObject.GetSprite,e.GenericMessage.selectedObject.GetName, products);
+        PassInformationAreaData(e.GenericMessage.selectedObject, products);
     }
 
-    void PassInformationAreaData(Sprite sprite, string name, IProduct[] products = null)
+    void PassInformationAreaData(ISelectable selectable, IProduct[] products = null)
     {
         _informationArea.gameObject.SetActive(true);
         _informationArea.Flush();
-        _informationArea.SetInformationArea(sprite,name,products);
+        _informationArea.SetInformationArea(selectable,products);
     }
 
     void CreateBuildingsButton()

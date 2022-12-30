@@ -99,3 +99,4 @@ MonoBehaviour:
   _height: 1
   _name: Unit 2
   _sprite: {fileID: 21300000, guid: 00ee85f172f064a2c91ddc19029d08fa, type: 3}
+  _selectedColor: {r: 1, g: 0.57254905, b: 0, a: 1}

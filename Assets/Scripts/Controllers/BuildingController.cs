@@ -11,8 +11,6 @@ public class BuildingController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(GameController.Instance.InputController);
-
         onObjectSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(GameController.Instance.InputController.OnObjectSelected);
         onObjectSelectSubscriber.Publisher.MessagePublisher += SetSelectedObject;
 
@@ -25,29 +23,29 @@ public class BuildingController : MonoBehaviour
         if (e.GenericMessage.selectedObject == null) { return; }
         if(_selectedProducerBuilding != null)
         {
-            if (_selectedProducerBuilding is IProductable)
+            if (_selectedProducerBuilding is IProducer)
             {
-                ((IProductable)_selectedProducerBuilding).SpawnPointLocatorStatus(false);
+                ((IProducer)_selectedProducerBuilding).SpawnPointLocatorStatus(false);
             }
         }
 
         if (e.GenericMessage.selectedObject is Building)
         {
             _selectedProducerBuilding = ((Building)e.GenericMessage.selectedObject);
-            if (_selectedProducerBuilding is IProductable)
+            if (_selectedProducerBuilding is IProducer)
             {
-                ((IProductable)_selectedProducerBuilding).SpawnPointLocatorStatus(true);
+                ((IProducer)_selectedProducerBuilding).SpawnPointLocatorStatus(true);
             }
         }
     }
 
     void SetSpawnPoint(object sender, Message<Vector2Int> e)
     {
-        if (_selectedProducerBuilding != null && _selectedProducerBuilding is IProductable)
+        if (_selectedProducerBuilding != null && _selectedProducerBuilding is IProducer)
         {
             if (GameController.Instance.GridController.GetGridAvailability(e.GenericMessage, _selectedProducerBuilding.Width, _selectedProducerBuilding.Height))
             {
-                ((IProductable)_selectedProducerBuilding).SetSpawnPointLocatorPosition(e.GenericMessage);
+                ((IProducer)_selectedProducerBuilding).SetSpawnPointLocatorPosition(e.GenericMessage);
             }
         }
     }

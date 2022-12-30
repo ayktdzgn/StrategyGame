@@ -61,7 +61,7 @@ public class Tile
 
     public Vector2 GetXY()
     {
-        return new Vector3(x, y);
+        return new Vector2(x, y);
     }
 
     public int GetX()

@@ -122,7 +122,7 @@ public class Pathfinding:Singleton<Pathfinding>
             for (int y = 0; y < grid.GetHeight(); y++)
             {
                 Tile tile = grid.GetGridObject(x, y);
-                tile.gCost = 99999999;
+                tile.gCost = int.MaxValue;
                 tile.CalculateFCost();
                 tile.cameFromNode = null;
             }
