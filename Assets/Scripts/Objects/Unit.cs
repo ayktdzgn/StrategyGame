@@ -20,13 +20,6 @@ public class Unit : Entity, IProduct, IMobile
     {
         var destinationPath = Pathfinding.Instance.FindPath(transform.position, (Vector2)destination);
 
-        Debug.Log("current pos : " + transform.position + " - Destination : " + destination);
-
-        foreach (var item in destinationPath)
-        {
-            Debug.Log(item);
-        }
-
         if (destinationPath != null && destinationPath.Count > 1)
         {
             destinationPath.RemoveAt(0);
@@ -70,6 +63,7 @@ public class MovementHandler
 
                 float distanceBefore = Vector3.Distance(mobileTransform.position, targetPosition);
                 mobileTransform.position = mobileTransform.position + moveDir * _speed * Time.deltaTime;
+                yield return new WaitForEndOfFrame();
             }
             else
             {

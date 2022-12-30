@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2595289332778274032}
   - component: {fileID: 1131662303460818973}
   - component: {fileID: 393610792667977020}
+  - component: {fileID: 1507126396621516765}
   m_Layer: 0
   m_Name: Unit 2
   m_TagString: Untagged
@@ -100,3 +101,16 @@ MonoBehaviour:
   _name: Unit 2
   _sprite: {fileID: 21300000, guid: 00ee85f172f064a2c91ddc19029d08fa, type: 3}
   _selectedColor: {r: 1, g: 0.57254905, b: 0, a: 1}
+--- !u!65 &1507126396621516765
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5436601786311361167}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

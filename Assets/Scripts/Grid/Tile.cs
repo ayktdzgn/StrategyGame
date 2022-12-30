@@ -54,7 +54,7 @@ public class Tile
         fCost = gCost + hCost;
     }
 
-    public Vector2 GetTileWorldPositions()
+    public Vector3 GetTileWorldPositions()
     {
         return grid.GetWorldPosition(GetX(), GetY());
     }

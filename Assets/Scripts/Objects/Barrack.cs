@@ -6,6 +6,7 @@ using UnityEngine;
 public class Barrack : Building, IProducer
 {
     [SerializeField] Transform _spawnPointLocator;
+    [SerializeField] Vector2Int _spawnPointLocatorSize = new Vector2Int(1,1);
     Vector2Int _spawnPoint;
 
     public Unit[] _products;
@@ -13,16 +14,8 @@ public class Barrack : Building, IProducer
     public Transform SpawnPointLocator => _spawnPointLocator;
 
     public Vector2Int SpawnPoint { get => _spawnPoint; set => _spawnPoint = value; }
+    public Vector2Int SpawnPointLocatorSize => _spawnPointLocatorSize;
 
-    //private void Start()
-    //{
-    //    Pathfinding.Instance.Grid.GetGridObjectNo(transform.position , out int x, out int y);
-    //    var tile = Pathfinding.Instance.Grid.GetGridObject(x, y-1);
-    //    if (tile != null)
-    //    {
-    //        SetSpawnPointLocatorPosition(new Vector2Int(tile.GetX(),tile.GetY()));
-    //    }
-    //}
 
     public void SpawnPointLocatorStatus(bool status)
     {
@@ -32,14 +25,13 @@ public class Barrack : Building, IProducer
     public void SetSpawnPointLocatorPosition(Vector2Int pos)
     {
         _spawnPoint = pos;
-        _spawnPointLocator.transform.position = (Vector2)pos;
-        Debug.Log(pos);
+        _spawnPointLocator.transform.position = new Vector3(pos.x,pos.y,-2);
     }
 
     public void Produce(IProduct product)
     {
         var unit = UnitFactory.Instance.GetNewProduct(product.GetName);
-        Debug.Log("Created Unt: " + unit.transform.position);
+        unit.transform.position = Pathfinding.Instance.Grid.GetGridObjectPositions(transform.position);
         unit.Move(_spawnPoint);
     }
 }
