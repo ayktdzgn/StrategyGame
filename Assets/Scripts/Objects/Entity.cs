@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour , ISelectable
 {
     [SerializeField] int _width;
     [SerializeField] int _height;

@@ -17,7 +17,6 @@ public class UnitCommandController : MonoBehaviour
     void SetSelectedObjects(object sender, Message<OnSelectEvent<ISelectable>> e)
     {
         if (e.GenericMessage.selectedObject == null) { ClearSelectedMobileList();  return; }
-
         if (e.GenericMessage.selectedObject is IMobile)
         {
             if (!_mobileObjectList.Contains((IMobile)e.GenericMessage.selectedObject))
