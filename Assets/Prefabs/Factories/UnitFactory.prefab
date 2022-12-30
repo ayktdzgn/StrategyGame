@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1750229280575960780}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -46,4 +46,8 @@ MonoBehaviour:
   _poolPrefab: {fileID: 5171734050270240812, guid: b6110088789904b33970b4cf81e06700, type: 3}
   _factorySettings:
   - productPrefab: {fileID: 393610792667977020, guid: 288b59d60489d41f7ae0a9c3dd785597, type: 3}
+    count: 100
+  - productPrefab: {fileID: 393610792667977020, guid: 2da103037b45a468d9b52adc2db2aeb9, type: 3}
+    count: 100
+  - productPrefab: {fileID: 393610792667977020, guid: 258b0948b2a3544cd88dd2a9073dcf1a, type: 3}
     count: 100

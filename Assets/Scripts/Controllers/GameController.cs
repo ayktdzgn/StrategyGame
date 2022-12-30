@@ -13,12 +13,16 @@ public class GameController : Singleton<GameController>
     public GridController GridController => _gridController;
     public InputController InputController => _inputController;
 
-    private void Start()
+    public override void Awake()
     {
+        base.Awake();
         _gridController = GetComponentInChildren<GridController>();
         _factoryController = GetComponentInChildren<FactoryController>();
         _inputController = GetComponentInChildren<InputController>();
+    }
 
+    private void Start()
+    {
         _gameView.Bind(this);
         Init();
     }
@@ -38,6 +42,6 @@ public class GameController : Singleton<GameController>
     {
         if (_inputController.IsCarryingBuilding) return;
         Building building = _factoryController.BuildingFactory.GetNewProduct(buildName);
-        _inputController.BuildingCarry(ref building);
+        _inputController.CarryBuilding(ref building);
     }
 }

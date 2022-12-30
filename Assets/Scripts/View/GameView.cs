@@ -15,6 +15,7 @@ public class GameView : MonoBehaviour
     private void Start()
     {
         CreateBuildingsButton();
+        _informationArea.gameObject.SetActive(false);
     }
 
     public void Bind(GameController gameController)
@@ -27,14 +28,26 @@ public class GameView : MonoBehaviour
 
     }
 
+    void InformationAreaStatus(bool status)
+    {
+        _informationArea.gameObject.SetActive(status);
+    }
+
     void GetSelectedObjectData(object sender, Message<OnSelectEvent<ISelectable>> e)
     {
-        PassInformationAreaData(e.GenericMessage.selectedObject.GetSprite,e.GenericMessage.selectedObject.GetName);
+        if(e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
+
+        IProduct[] products = null;
+        if (e.GenericMessage.selectedObject is IProductable)
+            products = ((IProductable)e.GenericMessage.selectedObject).Products;
+
+        PassInformationAreaData(e.GenericMessage.selectedObject.GetSprite,e.GenericMessage.selectedObject.GetName, products);
     }
 
     void PassInformationAreaData(Sprite sprite, string name, IProduct[] products = null)
     {
         _informationArea.gameObject.SetActive(true);
+        _informationArea.Flush();
         _informationArea.SetInformationArea(sprite,name,products);
     }
 

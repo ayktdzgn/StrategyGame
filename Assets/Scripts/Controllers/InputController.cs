@@ -14,10 +14,9 @@ public class InputController : MonoBehaviour
     IPublisher<OnSelectEvent<ISelectable>> onObjectSelected = new Publisher<OnSelectEvent<ISelectable>>();
     public IPublisher<OnSelectEvent<ISelectable>> OnObjectSelected { get { return onObjectSelected; } }
 
-    private void Start()
-    {
-        
-    }
+    IPublisher<Vector2Int> onGetPointPosition = new Publisher<Vector2Int>();
+    public IPublisher<Vector2Int> OnGetPointPosition { get => onGetPointPosition; }
+
 
     public void InputUpdate()
     {
@@ -31,16 +30,25 @@ public class InputController : MonoBehaviour
                 PlantBuilding(raycastPosition);
 
                 var selectableObject = hit.collider.GetComponent<ISelectable>();
-                if (selectableObject != null)
-                {
-                    if (OnObjectSelected != null)
-                        OnObjectSelected.Publish(new OnSelectEvent<ISelectable>(selectableObject));
-                }
+                if (OnObjectSelected != null)
+                    OnObjectSelected.Publish(new OnSelectEvent<ISelectable>(selectableObject));
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            Vector2 raycastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(raycastPosition, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                var pos = new Vector2Int(Mathf.RoundToInt(raycastPosition.x), Mathf.RoundToInt(raycastPosition.y));
+                if(OnGetPointPosition != null)
+                    onGetPointPosition.Publish(pos);              
             }
         }
     }
 
-    public void BuildingCarry(ref Building building)
+    public void CarryBuilding(ref Building building)
     {
         _isCarryingBuilding = true;
         _building = building;
