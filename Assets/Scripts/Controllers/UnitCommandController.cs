@@ -7,11 +7,15 @@ public class UnitCommandController : MonoBehaviour
     List<IMobile> _mobileObjectList = new List<IMobile>();
 
     Subscriber<OnSelectEvent<ISelectable>> onObjectSelectSubscriber;
+    Subscriber<Vector2Int> onMovePointSetter;
 
     private void Start()
     {
         onObjectSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(GameController.Instance.InputController.OnObjectSelected);
         onObjectSelectSubscriber.Publisher.MessagePublisher += SetSelectedObjects;
+
+        onMovePointSetter = new Subscriber<Vector2Int>(GameController.Instance.InputController.OnGetPointPosition);
+        onMovePointSetter.Publisher.MessagePublisher += MoveUnitsSelectedPoint;
     }
 
     void SetSelectedObjects(object sender, Message<OnSelectEvent<ISelectable>> e)
@@ -29,6 +33,14 @@ public class UnitCommandController : MonoBehaviour
                 _mobileObjectList.Remove((IMobile)e.GenericMessage.selectedObject);
                 ((IMobile)e.GenericMessage.selectedObject).SetSelectedColor(false);
             }
+        }
+    }
+
+    void MoveUnitsSelectedPoint(object sender, Message<Vector2Int> e)
+    {
+        for (int i = 0; i < _mobileObjectList.Count; i++)
+        {
+            _mobileObjectList[i].Move(e.GenericMessage);
         }
     }
 

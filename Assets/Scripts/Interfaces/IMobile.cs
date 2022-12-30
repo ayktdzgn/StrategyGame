@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IMobile
 {
     public void SetSelectedColor(bool status);
+    public void Move(Vector2Int destination);
 }
