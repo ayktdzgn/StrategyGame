@@ -18,7 +18,7 @@ public class GridController : MonoBehaviour
         GenerateGridTiles(factoryController);
     }
 
-    void GenerateGridTiles(FactoryController factoryController)
+    private void GenerateGridTiles(FactoryController factoryController)
     {
         for (int x = 0; x < _pathfindingGrid.Grid.GetWidth(); x++)
         {

@@ -28,12 +28,12 @@ public class GameView : MonoBehaviour
 
     }
 
-    void InformationAreaStatus(bool status)
+    private void InformationAreaStatus(bool status)
     {
         _informationArea.gameObject.SetActive(status);
     }
 
-    void GetSelectedObjectData(object sender, Message<OnSelectEvent<ISelectable>> e)
+    private void GetSelectedObjectData(object sender, Message<OnSelectEvent<ISelectable>> e)
     {
         if(e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
 
@@ -44,14 +44,14 @@ public class GameView : MonoBehaviour
         PassInformationAreaData(e.GenericMessage.selectedObject, products);
     }
 
-    void PassInformationAreaData(ISelectable selectable, IProduct[] products = null)
+    private void PassInformationAreaData(ISelectable selectable, IProduct[] products = null)
     {
         _informationArea.gameObject.SetActive(true);
         _informationArea.Flush();
         _informationArea.SetInformationArea(selectable,products);
     }
 
-    void CreateBuildingsButton()
+    private void CreateBuildingsButton()
     {
         var factory = BuildingFactory.Instance;
 

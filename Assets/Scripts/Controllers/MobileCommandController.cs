@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitCommandController : MonoBehaviour
+public class MobileCommandController : MonoBehaviour
 {
     List<IMobile> _mobileObjectList = new List<IMobile>();
 
@@ -18,33 +18,35 @@ public class UnitCommandController : MonoBehaviour
         onMovePointSetter.Publisher.MessagePublisher += MoveUnitsSelectedPoint;
     }
 
-    void SetSelectedObjects(object sender, Message<OnSelectEvent<ISelectable>> e)
+    private void SetSelectedObjects(object sender, Message<OnSelectEvent<ISelectable>> message)
     {
-        if (e.GenericMessage.selectedObject == null) { ClearSelectedMobileList();  return; }
-        if (e.GenericMessage.selectedObject is IMobile)
+        if (message.GenericMessage.selectedObject == null) { ClearSelectedMobileList();  return; }
+        Debug.Log("Mobile Mi ?");
+        if (message.GenericMessage.selectedObject is IMobile mobile)
         {
-            if (!_mobileObjectList.Contains((IMobile)e.GenericMessage.selectedObject))
+            Debug.Log("Mobile");
+            if (!_mobileObjectList.Contains(mobile))
             {
-                _mobileObjectList.Add((IMobile)e.GenericMessage.selectedObject);
-                ((IMobile)e.GenericMessage.selectedObject).SetSelectedColor(true);
+                _mobileObjectList.Add(mobile);
+                mobile.SetSelectedColor(true);
             }
             else
             {
-                _mobileObjectList.Remove((IMobile)e.GenericMessage.selectedObject);
-                ((IMobile)e.GenericMessage.selectedObject).SetSelectedColor(false);
+                _mobileObjectList.Remove(mobile);
+                mobile.SetSelectedColor(false);
             }
         }
     }
 
-    void MoveUnitsSelectedPoint(object sender, Message<Vector2Int> e)
+    private void MoveUnitsSelectedPoint(object sender, Message<Vector2Int> message)
     {
         for (int i = 0; i < _mobileObjectList.Count; i++)
         {
-            _mobileObjectList[i].Move(e.GenericMessage);
+            _mobileObjectList[i].Move(message.GenericMessage);
         }
     }
 
-    void ClearSelectedMobileList()
+    private void ClearSelectedMobileList()
     {
         for (int i = 0; i < _mobileObjectList.Count; i++)
         {

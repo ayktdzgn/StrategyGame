@@ -24,11 +24,11 @@ public abstract class Factory<T> : Singleton<Factory<T>> where T: MonoBehaviour
         base.Awake();
         for (int i = 0; i < _factorySettings.Length; i++)
         {
-            var _pool = Instantiate(_poolPrefab, transform);
-            _pool.name = _factorySettings[i].productPrefab.name;
-            _pool.Init(_factorySettings[i].productPrefab, _factorySettings[i].count);
+            var pool = Instantiate(_poolPrefab, transform);
+            pool.name = _factorySettings[i].productPrefab.name;
+            pool.Init(_factorySettings[i].productPrefab, _factorySettings[i].count);
 
-            poolDic.Add(_pool.name, _pool.GetComponent<Pool<T>>());
+            poolDic.Add(pool.name, pool.GetComponent<Pool<T>>());
         }
     }
 

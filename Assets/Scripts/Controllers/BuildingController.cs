@@ -18,14 +18,14 @@ public class BuildingController : MonoBehaviour
         onSpawnPointSetter.Publisher.MessagePublisher += SetSpawnPoint;
     }
 
-    void SetSelectedObject(object sender, Message<OnSelectEvent<ISelectable>> e)
+    private void SetSelectedObject(object sender, Message<OnSelectEvent<ISelectable>> message)
     {
         if (_selectedBuilding != null){ SetProducerSpawnPointLocator(false);}
-        if (e.GenericMessage.selectedObject == null) { SetProducerSpawnPointLocator(false); _selectedBuilding = null; return; }
+        if (message.GenericMessage.selectedObject == null) { SetProducerSpawnPointLocator(false); _selectedBuilding = null; return; }
 
-        if (e.GenericMessage.selectedObject is Building)
+        if (message.GenericMessage.selectedObject is Building building)
         {
-            _selectedBuilding = ((Building)e.GenericMessage.selectedObject);
+            _selectedBuilding = building;
             SetProducerSpawnPointLocator(true);
         }
         else
@@ -35,22 +35,22 @@ public class BuildingController : MonoBehaviour
         }
     }
 
-    void SetSpawnPoint(object sender, Message<Vector2Int> e)
+    private void SetSpawnPoint(object sender, Message<Vector2Int> message)
     {
-        if (_selectedBuilding != null && _selectedBuilding is IProducer)
+        if (_selectedBuilding != null && _selectedBuilding is IProducer producerBuilding)
         {
-            if (GameController.Instance.GridController.GetGridAvailability(e.GenericMessage, ((IProducer)_selectedBuilding).SpawnPointLocatorSize.x, ((IProducer)_selectedBuilding).SpawnPointLocatorSize.y))
+            if (GameController.Instance.GridController.GetGridAvailability(message.GenericMessage, producerBuilding.SpawnPointLocatorSize.x, producerBuilding.SpawnPointLocatorSize.y))
             {
-                ((IProducer)_selectedBuilding).SetSpawnPointLocatorPosition(e.GenericMessage);
+                producerBuilding.SetSpawnPointLocatorPosition(message.GenericMessage);
             }
         }
     }
 
-    void SetProducerSpawnPointLocator(bool status)
+    private void SetProducerSpawnPointLocator(bool status)
     {
-        if (_selectedBuilding is IProducer)
+        if (_selectedBuilding is IProducer producerBuilding)
         {
-            ((IProducer)_selectedBuilding).SpawnPointLocatorStatus(status);
+            producerBuilding.SpawnPointLocatorStatus(status);
         }
     }
 }

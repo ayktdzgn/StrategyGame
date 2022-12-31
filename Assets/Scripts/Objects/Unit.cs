@@ -7,6 +7,7 @@ using UnityEngine;
 public class Unit : Entity, IProduct, IMobile
 {
     [SerializeField] Color _selectedColor;
+    IEnumerator _movement;
 
     public void SetSelectedColor(bool status)
     {
@@ -27,55 +28,11 @@ public class Unit : Entity, IProduct, IMobile
         Move(40,0,destinationPath);
     }
 
-    void Move(float speed, int currentPathIndex, List<Vector3> pathVectorList)
+    private void Move(float speed, int currentPathIndex, List<Vector3> pathVectorList)
     {
+        if (_movement != null) StopCoroutine(_movement);
         var movementHandler = new MovementHandler(speed,currentPathIndex,pathVectorList);
-        StartCoroutine(movementHandler.Movement(transform));
-    }
-}
-
-public class MovementHandler
-{
-    private float _speed = 40f;
-    private int _currentPathIndex;
-    private List<Vector3> _pathVectorList = new List<Vector3>();
-
-    public MovementHandler(float speed, int currentPathIndex , List<Vector3> pathVectorList)
-    {
-        _speed = speed;
-        _currentPathIndex = currentPathIndex;
-        _pathVectorList = pathVectorList;
-    }
-
-    private void StopMoving()
-    {
-        _pathVectorList = null;
-    }
-
-    public IEnumerator Movement(Transform mobileTransform)
-    {
-        while (_pathVectorList != null)
-        {
-            Vector3 targetPosition = _pathVectorList[_currentPathIndex];
-            if (Vector3.Distance(mobileTransform.position, targetPosition) > 0.03f)
-            {
-                Vector3 moveDir = (targetPosition - mobileTransform.position).normalized;
-
-                float distanceBefore = Vector3.Distance(mobileTransform.position, targetPosition);
-                mobileTransform.position = mobileTransform.position + moveDir * _speed * Time.deltaTime;
-                yield return new WaitForEndOfFrame();
-            }
-            else
-            {
-                _currentPathIndex++;
-                if (_currentPathIndex >= _pathVectorList.Count)
-                {
-                    mobileTransform.position = targetPosition;
-                    StopMoving();
-                }
-            }
-            yield return new WaitForEndOfFrame();
-        }
-        yield return null;
+        _movement = movementHandler.Movement(transform);
+        StartCoroutine(_movement);
     }
 }

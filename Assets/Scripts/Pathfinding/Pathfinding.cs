@@ -7,57 +7,57 @@ namespace Core.Pathfinding
 {
     public class Pathfinding : Singleton<Pathfinding>
     {
-        private GenericGrid<Tile> grid;
-        private List<Tile> openList;
-        private List<Tile> closedList;
+        private GenericGrid<Tile> _grid;
+        private List<Tile> _openList;
+        private List<Tile> _closedList;
 
         private const int MOVE_STRAIGHT_COST = 10;
         private const int MOVE_DIAGONAL_COST = 14;
 
-        public GenericGrid<Tile> Grid => grid;
+        public GenericGrid<Tile> Grid => _grid;
 
         public Pathfinding(int width, int height, float cellSize, Vector3 originPosition)
         {
             Instance = this;
-            grid = new GenericGrid<Tile>(width, height, cellSize, originPosition, (GenericGrid<Tile> g, int x, int y) => new Tile(g, x, y));
+            _grid = new GenericGrid<Tile>(width, height, cellSize, originPosition, (GenericGrid<Tile> g, int x, int y) => new Tile(g, x, y));
         }
 
         private Tile GetNode(int x, int y)
         {
-            return grid.GetGridObject(x, y);
+            return _grid.GetGridObject(x, y);
         }
 
         public bool GetClickedTileBuildAvailability(int x, int y)
         {
-            var tile = grid.GetGridObject(x, y);
+            var tile = _grid.GetGridObject(x, y);
             return tile.isBuildable;
         }
 
         public void SetTileNotBuildable(int x, int y)
         {
-            var tile = grid.GetGridObject(x, y);
+            var tile = _grid.GetGridObject(x, y);
             tile.isBuildable = false;
         }
         public void SetTileNotWalkable(int x, int y)
         {
-            var tile = grid.GetGridObject(x, y);
+            var tile = _grid.GetGridObject(x, y);
             tile.isWalkable = false;
         }
         public void SetTileBuildable(int x, int y)
         {
-            var tile = grid.GetGridObject(x, y);
+            var tile = _grid.GetGridObject(x, y);
             tile.isBuildable = true;
         }
         public void SetTileWalkable(int x, int y)
         {
-            var tile = grid.GetGridObject(x, y);
+            var tile = _grid.GetGridObject(x, y);
             tile.isWalkable = true;
         }
 
         public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
         {
-            grid.GetXY(startWorldPosition, out int startX, out int startY);
-            grid.GetXY(endWorldPosition, out int endX, out int endY);
+            _grid.GetXY(startWorldPosition, out int startX, out int startY);
+            _grid.GetXY(endWorldPosition, out int endX, out int endY);
 
             List<Tile> path = FindPath(startX, startY, endX, endY);
             if (path == null)
@@ -77,8 +77,8 @@ namespace Core.Pathfinding
 
         public List<Tile> FindPath(int startX, int startY, int endX, int endY)
         {
-            Tile startNode = grid.GetGridObject(startX, startY);
-            Tile endNode = grid.GetGridObject(endX, endY);
+            Tile startNode = _grid.GetGridObject(startX, startY);
+            Tile endNode = _grid.GetGridObject(endX, endY);
 
             if (startNode == null || endNode == null)
             {
@@ -112,14 +112,14 @@ namespace Core.Pathfinding
 
             startNode.isOccupiedByUnit = false;
 
-            openList = new List<Tile> { startNode };
-            closedList = new List<Tile>();
+            _openList = new List<Tile> { startNode };
+            _closedList = new List<Tile>();
 
-            for (int x = 0; x < grid.GetWidth(); x++)
+            for (int x = 0; x < _grid.GetWidth(); x++)
             {
-                for (int y = 0; y < grid.GetHeight(); y++)
+                for (int y = 0; y < _grid.GetHeight(); y++)
                 {
-                    Tile tile = grid.GetGridObject(x, y);
+                    Tile tile = _grid.GetGridObject(x, y);
                     tile.gCost = int.MaxValue;
                     tile.CalculateFCost();
                     tile.cameFromNode = null;
@@ -130,9 +130,9 @@ namespace Core.Pathfinding
             startNode.hCost = CalculateDistanceCost(startNode, endNode);
             startNode.CalculateFCost();
             //search until there is no nodes in openlist
-            while (openList.Count > 0)
+            while (_openList.Count > 0)
             {
-                Tile currentNode = GetLowestFCostNode(openList);
+                Tile currentNode = GetLowestFCostNode(_openList);
                 if (currentNode == endNode)
                 {
                     //calculate path is called when you reach the end node
@@ -140,16 +140,16 @@ namespace Core.Pathfinding
                     return CalculatePath(endNode);
                 }
 
-                openList.Remove(currentNode);
-                closedList.Add(currentNode);
+                _openList.Remove(currentNode);
+                _closedList.Add(currentNode);
 
                 foreach (Tile neighbourNode in GetNeighbourList(currentNode))
                 {
-                    if (closedList.Contains(neighbourNode)) continue;
+                    if (_closedList.Contains(neighbourNode)) continue;
                     //automatically add unwalkable nodes to closed list
                     if (!neighbourNode.isWalkable)
                     {
-                        closedList.Add(neighbourNode);
+                        _closedList.Add(neighbourNode);
                         continue;
                     }
                     //temp G cost is assigned to neighbour nodes
@@ -163,9 +163,9 @@ namespace Core.Pathfinding
                         neighbourNode.hCost = CalculateDistanceCost(neighbourNode, endNode);
                         neighbourNode.CalculateFCost(); ;
 
-                        if (!openList.Contains(neighbourNode))
+                        if (!_openList.Contains(neighbourNode))
                         {
-                            openList.Add(neighbourNode);
+                            _openList.Add(neighbourNode);
                         }
                     }
                 }
@@ -188,21 +188,21 @@ namespace Core.Pathfinding
                 //Left Down
                 if (currentNode.GetY() - 1 >= 0) neighbourList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() - 1));
                 //Left Up
-                if (currentNode.GetY() + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() + 1));
+                if (currentNode.GetY() + 1 < _grid.GetHeight()) neighbourList.Add(GetNode(currentNode.GetX() - 1, currentNode.GetY() + 1));
             }
-            if (currentNode.GetX() + 1 < grid.GetWidth())
+            if (currentNode.GetX() + 1 < _grid.GetWidth())
             {
                 //Right
                 neighbourList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY()));
                 //Right Down
                 if (currentNode.GetY() - 1 >= 0) neighbourList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() - 1));
                 //Right Up
-                if (currentNode.GetY() + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() + 1));
+                if (currentNode.GetY() + 1 < _grid.GetHeight()) neighbourList.Add(GetNode(currentNode.GetX() + 1, currentNode.GetY() + 1));
             }
             //Down
             if (currentNode.GetY() - 1 >= 0) neighbourList.Add(GetNode(currentNode.GetX(), currentNode.GetY() - 1));
             //Up
-            if (currentNode.GetY() + 1 < grid.GetHeight()) neighbourList.Add(GetNode(currentNode.GetX(), currentNode.GetY() + 1));
+            if (currentNode.GetY() + 1 < _grid.GetHeight()) neighbourList.Add(GetNode(currentNode.GetX(), currentNode.GetY() + 1));
 
             return neighbourList;
         }

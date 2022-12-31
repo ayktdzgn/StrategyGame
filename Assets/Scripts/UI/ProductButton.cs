@@ -39,7 +39,7 @@ public class ProductButton : MonoBehaviour
         _button = GetComponent<Button>();
     }
 
-    void SetProductImage(Sprite sprite)
+    private void SetProductImage(Sprite sprite)
     {
         _image.sprite = sprite;
     }

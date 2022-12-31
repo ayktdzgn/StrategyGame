@@ -27,7 +27,7 @@ public class GameController : Singleton<GameController>
         Init();
     }
 
-    void Init()
+    private void Init()
     {
         _gridController.GenerateGrid(_factoryController);
     }
