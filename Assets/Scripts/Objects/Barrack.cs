@@ -25,7 +25,7 @@ public class Barrack : Building, IProducer
     public void SetSpawnPointLocatorPosition(Vector2Int pos)
     {
         _spawnPoint = pos;
-        _spawnPointLocator.transform.position = new Vector3(pos.x,pos.y,-2);
+        _spawnPointLocator.transform.position = (Vector2)pos;
     }
 
     public void Produce(IProduct product)

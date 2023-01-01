@@ -21,10 +21,8 @@ public class MobileCommandController : MonoBehaviour
     private void SetSelectedObjects(object sender, Message<OnSelectEvent<ISelectable>> message)
     {
         if (message.GenericMessage.selectedObject == null) { ClearSelectedMobileList();  return; }
-        Debug.Log("Mobile Mi ?");
         if (message.GenericMessage.selectedObject is IMobile mobile)
         {
-            Debug.Log("Mobile");
             if (!_mobileObjectList.Contains(mobile))
             {
                 _mobileObjectList.Add(mobile);

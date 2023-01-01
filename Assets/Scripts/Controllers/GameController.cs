@@ -9,9 +9,11 @@ public class GameController : Singleton<GameController>
     GridController _gridController;
     FactoryController _factoryController;
     InputController _inputController;
+    BuildingController _buildingController;
 
     public GridController GridController => _gridController;
     public InputController InputController => _inputController;
+    public BuildingController BuildingController => _buildingController;
 
     public override void Awake()
     {
@@ -19,6 +21,7 @@ public class GameController : Singleton<GameController>
         _gridController = GetComponentInChildren<GridController>();
         _factoryController = GetComponentInChildren<FactoryController>();
         _inputController = GetComponentInChildren<InputController>();
+        _buildingController = GetComponentInChildren<BuildingController>();
     }
 
     private void Start()
@@ -38,10 +41,4 @@ public class GameController : Singleton<GameController>
         _inputController.InputUpdate();
     }
 
-    public void CarryingBuild(string buildName)
-    {
-        if (_inputController.IsCarryingBuilding) return;
-        Building building = _factoryController.BuildingFactory.GetNewProduct(buildName);
-        _inputController.CarryBuilding(ref building);
-    }
 }

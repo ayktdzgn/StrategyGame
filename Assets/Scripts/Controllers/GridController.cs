@@ -8,6 +8,7 @@ public class GridController : MonoBehaviour
     [Header("Grid Settings")]
     [SerializeField] Vector2Int _gridSize;
     [SerializeField] float _cellSize = 1f;
+    [SerializeField] int _pixelCellSize = 32;
 
     Pathfinding _pathfindingGrid;
 
@@ -25,7 +26,8 @@ public class GridController : MonoBehaviour
             for (int y = 0; y < _pathfindingGrid.Grid.GetHeight(); y++)
             {
                 var tile = factoryController.TileFactory.GetNewProduct("Tile");
-                tile.transform.position = _pathfindingGrid.Grid.GetWorldPosition(x, y);
+                tile.transform.position = new Vector3(_pathfindingGrid.Grid.GetWorldPosition(x, y).x, _pathfindingGrid.Grid.GetWorldPosition(x, y).y,1);
+                tile.transform.localScale = _cellSize * ((float)_pixelCellSize / 10f) * Vector3.one;
             }
         }
     }

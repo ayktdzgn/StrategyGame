@@ -5,9 +5,12 @@ using UnityEngine;
 public class BuildingController : MonoBehaviour
 {
     Building _selectedBuilding;
+    bool _isCarryingBuilding = false;
 
     Subscriber<OnSelectEvent<ISelectable>> onObjectSelectSubscriber;
     Subscriber<Vector2Int> onSpawnPointSetter;
+
+    public bool IsCarryingBuilding { get => _isCarryingBuilding; set => _isCarryingBuilding = value; }
 
     private void Start()
     {
@@ -21,7 +24,14 @@ public class BuildingController : MonoBehaviour
     private void SetSelectedObject(object sender, Message<OnSelectEvent<ISelectable>> message)
     {
         if (_selectedBuilding != null){ SetProducerSpawnPointLocator(false);}
-        if (message.GenericMessage.selectedObject == null) { SetProducerSpawnPointLocator(false); _selectedBuilding = null; return; }
+        if (message.GenericMessage.selectedObject == null)
+        {
+            SetProducerSpawnPointLocator(false);
+            _selectedBuilding = null;
+            return;
+        }
+
+        PlantBuilding((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition));
 
         if (message.GenericMessage.selectedObject is Building building)
         {
@@ -52,5 +62,56 @@ public class BuildingController : MonoBehaviour
         {
             producerBuilding.SpawnPointLocatorStatus(status);
         }
+    }
+
+    public void CarryBuilding(string buildName)
+    {
+        if (_isCarryingBuilding) return;
+        Building building = BuildingFactory.Instance.GetNewProduct(buildName);
+        CarryBuilding(building);
+    }
+
+    private void CarryBuilding(Building building)
+    {
+        _isCarryingBuilding = true;
+        _selectedBuilding = building;
+        StartCoroutine(MoveBuilding(building));
+    }
+
+    private void PlantBuilding(Vector2 mousePos)
+    {
+        if (_selectedBuilding == null) return;
+        var pos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
+        if (GameController.Instance.GridController.GetGridAvailability(pos, _selectedBuilding.Width, _selectedBuilding.Height))
+        {
+            GameController.Instance.GridController.SetGridBuilt(pos, _selectedBuilding.Width, _selectedBuilding.Height);
+            _selectedBuilding.transform.position = new Vector2(pos.x, pos.y);
+
+            _isCarryingBuilding = false;
+            _selectedBuilding = null;
+        }
+    }
+
+    IEnumerator MoveBuilding(Building building)
+    {
+        while (_isCarryingBuilding)
+        {
+            var mousePos = (Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            building.transform.position = mousePos;
+
+            var pos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y)); // Calculate the grid position
+
+            if (GameController.Instance.GridController.GetGridAvailability(pos, building.Width, building.Height))
+            {
+                building.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            else
+            {
+                building.GetComponent<SpriteRenderer>().color = Color.red;
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+        yield return null;
     }
 }

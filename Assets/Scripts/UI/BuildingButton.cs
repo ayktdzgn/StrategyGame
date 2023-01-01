@@ -34,6 +34,6 @@ public class BuildingButton : MonoBehaviour
 
     public void InitializeBuilding()
     {
-        GameController.Instance.CarryingBuild(_buildingName);
+        GameController.Instance.BuildingController.CarryBuilding(_buildingName);
     }
 }
