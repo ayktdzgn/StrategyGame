@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitInfo : MonoBehaviour
+[CreateAssetMenu(fileName = "Unit Info", menuName = "Scriptable Objects/Unit Info", order = 0)]
+public class UnitInfo : EntityInfo
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int damage;
+    public int attackRange;
+    public float attackCooldown;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int movementSpeed;
+    public Color selectedColor;
 }

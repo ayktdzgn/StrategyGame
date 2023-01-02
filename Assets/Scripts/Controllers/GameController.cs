@@ -7,7 +7,6 @@ public class GameController : Singleton<GameController>
 {
     [SerializeField] GameView _gameView;
     GridController _gridController;
-    FactoryController _factoryController;
     InputController _inputController;
     BuildingController _buildingController;
 
@@ -19,7 +18,6 @@ public class GameController : Singleton<GameController>
     {
         base.Awake();
         _gridController = GetComponentInChildren<GridController>();
-        _factoryController = GetComponentInChildren<FactoryController>();
         _inputController = GetComponentInChildren<InputController>();
         _buildingController = GetComponentInChildren<BuildingController>();
     }
@@ -32,7 +30,7 @@ public class GameController : Singleton<GameController>
 
     private void Init()
     {
-        _gridController.GenerateGrid(_factoryController);
+        _gridController.GenerateGrid();
     }
 
     //If we needed State Pattern

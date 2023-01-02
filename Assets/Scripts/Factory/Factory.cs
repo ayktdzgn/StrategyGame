@@ -14,9 +14,9 @@ public abstract class Factory<T> : Singleton<Factory<T>> where T: MonoBehaviour
 
     [SerializeField] protected Pool<T> _poolPrefab;
     [SerializeField] private FactorySettings[] _factorySettings;
-    Dictionary<string, Pool<T>> poolDic = new Dictionary<string, Pool<T>>();
+    Dictionary<string, Pool<T>> _poolDic = new Dictionary<string, Pool<T>>();
 
-    public Dictionary<string, Pool<T>> PoolDic { get => poolDic; }
+    public Dictionary<string, Pool<T>> PoolDic { get => _poolDic; }
     public FactorySettings[] FactorySettingsArr { get => _factorySettings; }
 
     public override void Awake()
@@ -28,17 +28,25 @@ public abstract class Factory<T> : Singleton<Factory<T>> where T: MonoBehaviour
             pool.name = _factorySettings[i].productPrefab.name;
             pool.Init(_factorySettings[i].productPrefab, _factorySettings[i].count);
 
-            poolDic.Add(pool.name, pool.GetComponent<Pool<T>>());
+            _poolDic.Add(pool.name, pool.GetComponent<Pool<T>>());
         }
     }
 
     public T GetNewProduct(string name)
     {
-        if (poolDic.TryGetValue(name, out Pool<T> value))
+        if (_poolDic.TryGetValue(name, out Pool<T> value))
         {
             return value.GetObject();
         }
         
         return null;
+    }
+
+    public void RefuseProduct(string name, T product)
+    {
+        if (_poolDic.TryGetValue(name, out Pool<T> value))
+        {
+            value.BackToPool(product);
+        }
     }
 }

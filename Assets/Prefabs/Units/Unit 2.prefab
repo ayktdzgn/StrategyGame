@@ -96,10 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83a5e73ca63546dba460924051a12dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 1
-  _height: 1
-  _name: Unit 2
-  _sprite: {fileID: 21300000, guid: 00ee85f172f064a2c91ddc19029d08fa, type: 3}
+  _entityInfo: {fileID: 11400000, guid: b99248acfe8734fb4bb794b0232f519d, type: 2}
   _selectedColor: {r: 1, g: 0.57254905, b: 0, a: 1}
 --- !u!61 &-4044970967477230830
 BoxCollider2D:

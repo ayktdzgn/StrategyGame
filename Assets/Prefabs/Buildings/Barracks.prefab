@@ -179,10 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c74ed765e3b4bd38a56bbca9dca45f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _width: 4
-  _height: 4
-  _name: Barrack
-  _sprite: {fileID: 21300000, guid: 6a39a38d6584e4bca891509cdb047ae9, type: 3}
+  _entityInfo: {fileID: 11400000, guid: 563a791381d574c35b69016591334483, type: 2}
   _spawnPointLocator: {fileID: 6601413188235004744}
   _spawnPointLocatorSize: {x: 1, y: 1}
   _products:

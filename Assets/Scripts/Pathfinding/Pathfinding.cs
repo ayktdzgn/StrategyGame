@@ -33,25 +33,20 @@ namespace Core.Pathfinding
             return tile.isBuildable;
         }
 
-        public void SetTileNotBuildable(int x, int y)
+        public void SetTileBuildableStatus(int x, int y , bool isBuildable)
         {
             var tile = _grid.GetGridObject(x, y);
-            tile.isBuildable = false;
+            tile.isBuildable = isBuildable;
         }
-        public void SetTileNotWalkable(int x, int y)
+        public void SetTileWalkableStatus(int x, int y , bool isWalkable)
         {
             var tile = _grid.GetGridObject(x, y);
-            tile.isWalkable = false;
+            tile.isWalkable = isWalkable;
         }
-        public void SetTileBuildable(int x, int y)
+        public void SetTileOccupiedStatus(int x, int y, bool isOccupied)
         {
             var tile = _grid.GetGridObject(x, y);
-            tile.isBuildable = true;
-        }
-        public void SetTileWalkable(int x, int y)
-        {
-            var tile = _grid.GetGridObject(x, y);
-            tile.isWalkable = true;
+            tile.isOccupiedByUnit = isOccupied;
         }
 
         public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)

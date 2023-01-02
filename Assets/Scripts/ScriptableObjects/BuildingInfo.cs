@@ -1,18 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingInfo : MonoBehaviour
+[CreateAssetMenu(fileName = "Building Info", menuName = "Scriptable Objects/Building Info", order = 1)]
+public class BuildingInfo : EntityInfo
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

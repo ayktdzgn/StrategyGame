@@ -5,11 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public abstract class Entity : MonoBehaviour , ISelectable
 {
-    [SerializeField] int _width;
-    [SerializeField] int _height;
+    [SerializeField] protected EntityInfo _entityInfo;
 
-    [SerializeField] string _name;
-    [SerializeField] Sprite _sprite;
+    protected int _width;
+    protected int _height;
+
+    protected string _name;
+    protected Sprite _sprite;
+
+    protected int _health;
+    protected int _currentHealth;
 
     public int Width => _width;
     public int Height => _height;
@@ -19,8 +24,16 @@ public abstract class Entity : MonoBehaviour , ISelectable
 
     protected SpriteRenderer _spriteRenderer;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
+        _width = _entityInfo.size.x;
+        _height = _entityInfo.size.y;
+        _name = _entityInfo.entityName;
+        _sprite = _entityInfo.sprite;
+        _health = _entityInfo.health;
+        _currentHealth = _entityInfo.health;
+
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _spriteRenderer.sprite = _sprite;
     }
 }

@@ -128,21 +128,4 @@ public class OnGridObjectChangedEventArgs
         this.y = y;
     }
 }
-
-
 }
-//Subscriber<OnGridObjectChangedEventArgs> subscriber;
-
-//void ABC()
-//{
-//    subscriber = new Subscriber<OnGridObjectChangedEventArgs>(OnGridObjectChanged); // Subscribe to new Publisher
-//    subscriber.Publisher.MessagePublisher += Test;
-
-//    OnGridObjectChanged.Publish(new OnGridObjectChangedEventArgs(3, 3));
-//}
-
-
-//void Test(object sender, Message<OnGridObjectChangedEventArgs> e)
-//{
-
-//}

@@ -34,13 +34,27 @@ public class MobileCommandController : MonoBehaviour
                 mobile.SetSelectedColor(false);
             }
         }
+        else
+        {
+            ClearSelectedMobileList();
+        }
     }
 
     private void MoveUnitsSelectedPoint(object sender, Message<Vector2Int> message)
     {
+        RefreshMobileList();
         for (int i = 0; i < _mobileObjectList.Count; i++)
         {
             _mobileObjectList[i].Move(message.GenericMessage);
+        }
+    }
+
+    private void RefreshMobileList()
+    {
+        for (int i = 0; i < _mobileObjectList.Count; i++)
+        {
+            if (_mobileObjectList[i] is IAttackable attackable && !attackable.IsAlive)
+                _mobileObjectList.RemoveAt(i);
         }
     }
 

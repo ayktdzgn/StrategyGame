@@ -80,7 +80,7 @@ public class BuildingController : MonoBehaviour
 
     private void PlantBuilding(Vector2 mousePos)
     {
-        if (_selectedBuilding == null) return;
+        if (_selectedBuilding == null || !_isCarryingBuilding) return;
         var pos = new Vector2Int(Mathf.RoundToInt(mousePos.x), Mathf.RoundToInt(mousePos.y));
         if (GameController.Instance.GridController.GetGridAvailability(pos, _selectedBuilding.Width, _selectedBuilding.Height))
         {
