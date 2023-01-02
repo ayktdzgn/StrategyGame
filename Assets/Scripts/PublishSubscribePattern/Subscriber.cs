@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-public class Subscriber<T>
+namespace Core.PublishSubscribe
 {
-    public IPublisher<T> Publisher { get; private set; }
-    public Subscriber(IPublisher<T> publisher)
+    public class Subscriber<T>
     {
-        Publisher = publisher;
+        public IPublisher<T> Publisher { get; private set; }
+        public Subscriber(IPublisher<T> publisher)
+        {
+            Publisher = publisher;
+        }
     }
 }

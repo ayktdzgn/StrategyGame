@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public interface IProduct
+namespace Core.Interfaces
 {
-    public Sprite GetSprite { get; }
-    public string GetName { get; }
+    public interface IProduct
+    {
+        public Sprite GetSprite { get; }
+        public string GetName { get; }
+    }
 }

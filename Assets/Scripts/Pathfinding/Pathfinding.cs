@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core.Grid;
+using Core.Singleton;
 using UnityEngine;
 
-namespace Core.Pathfinding
+namespace Core.Path
 {
     public class Pathfinding : Singleton<Pathfinding>
     {

@@ -1,39 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.Controllers;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-[RequireComponent(typeof(Button))]
-public class BuildingButton : MonoBehaviour
+namespace Core.UI
 {
-    [SerializeField] Text _text;
-    Image _image;
-    string _buildingName;
-
-    private void Awake()
+    [RequireComponent(typeof(Image))]
+    [RequireComponent(typeof(Button))]
+    public class BuildingButton : MonoBehaviour
     {
-        _image = GetComponent<Image>();
-    }
+        [SerializeField] Text _text;
+        Image _image;
+        string _buildingName;
 
-    private void Start()
-    {
-        GetComponent<Button>().onClick.AddListener(() =>
+        private void Awake()
         {
-            InitializeBuilding();
-        });
-    }
+            _image = GetComponent<Image>();
+        }
 
-    public void SetButton(Sprite sprite, string name)
-    {
-        _image.sprite = sprite;
-        _text.text = name;
+        private void Start()
+        {
+            GetComponent<Button>().onClick.AddListener(() =>
+            {
+                InitializeBuilding();
+            });
+        }
 
-        _buildingName = name;
-    }
+        public void SetButton(Sprite sprite, string name)
+        {
+            _image.sprite = sprite;
+            _text.text = name;
 
-    public void InitializeBuilding()
-    {
-        GameController.Instance.BuildingController.CarryBuilding(_buildingName);
+            _buildingName = name;
+        }
+
+        public void InitializeBuilding()
+        {
+            GameController.Instance.BuildingController.CarryBuilding(_buildingName);
+        }
     }
 }

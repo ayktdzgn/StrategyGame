@@ -1,26 +1,26 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class Publisher<T> : IPublisher<T>
+namespace Core.PublishSubscribe
 {
-    public event EventHandler<Message<T>> MessagePublisher;
-
-    public void OnEventHandler(Message<T> args)
+    public class Publisher<T> : IPublisher<T>
     {
-        var handler = MessagePublisher;
-        if (handler != null)
-            handler(this, args);
-    }
+        public event EventHandler<Message<T>> MessagePublisher;
 
-    /// <summary>
-    /// Publish event
-    /// </summary>
-    /// <param name="Set type of data"></param>
-    public void Publish(T data)
-    {
-        Message<T> message = (Message<T>)System.Activator.CreateInstance(typeof(Message<T>), new object[] { data });
-        OnEventHandler(message);
+        public void OnEventHandler(Message<T> args)
+        {
+            var handler = MessagePublisher;
+            if (handler != null)
+                handler(this, args);
+        }
+
+        /// <summary>
+        /// Publish event
+        /// </summary>
+        /// <param name="Set type of data"></param>
+        public void Publish(T data)
+        {
+            Message<T> message = (Message<T>)System.Activator.CreateInstance(typeof(Message<T>), new object[] { data });
+            OnEventHandler(message);
+        }
     }
 }

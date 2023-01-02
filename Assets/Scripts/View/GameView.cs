@@ -1,68 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.Controllers;
+using Core.Factory;
+using Core.Interfaces;
+using Core.PublishSubscribe;
+using Core.UI;
 using UnityEngine;
 
-public class GameView : MonoBehaviour
+namespace Core.View
 {
-    [SerializeField] InfiniteScroll _infiniteScroll;
-    [SerializeField] InformationArea _informationArea;
-
-    [SerializeField] BuildingButton _buildingButtonPrefab;
-    GameController _gameController;
-
-    Subscriber<OnSelectEvent<ISelectable>> onObjectSelectSubscriber;
-
-    private void Start()
+    public class GameView : MonoBehaviour
     {
-        CreateBuildingsButton();
-        _informationArea.gameObject.SetActive(false);
-    }
+        [SerializeField] InfiniteScroll _infiniteScroll;
+        [SerializeField] InformationArea _informationArea;
 
-    public void Bind(GameController gameController)
-    {
-        _gameController = gameController;
- 
-        onObjectSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(gameController.InputController.OnObjectSelected);
-        onObjectSelectSubscriber.Publisher.MessagePublisher += GetSelectedObjectData;
+        [SerializeField] BuildingButton _buildingButtonPrefab;
+        GameController _gameController;
 
+        Subscriber<OnSelectEvent<ISelectable>> onObjectSelectSubscriber;
 
-    }
-
-    private void InformationAreaStatus(bool status)
-    {
-        _informationArea.gameObject.SetActive(status);
-    }
-
-    private void GetSelectedObjectData(object sender, Message<OnSelectEvent<ISelectable>> e)
-    {
-        if(e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
-
-        IProduct[] products = null;
-        if (e.GenericMessage.selectedObject is IProducer)
-            products = ((IProducer)e.GenericMessage.selectedObject).Products;
-
-        PassInformationAreaData(e.GenericMessage.selectedObject, products);
-    }
-
-    private void PassInformationAreaData(ISelectable selectable, IProduct[] products = null)
-    {
-        _informationArea.gameObject.SetActive(true);
-        _informationArea.Flush();
-        _informationArea.SetInformationArea(selectable,products);
-    }
-
-    private void CreateBuildingsButton()
-    {
-        var factory = BuildingFactory.Instance;
-
-        for (int i = 0; i < factory.FactorySettingsArr.Length; i++)
+        private void Start()
         {
-            var building = factory.FactorySettingsArr[i].productPrefab;
-            var sprite = building.GetComponent<SpriteRenderer>().sprite;
-            var button = Instantiate(_buildingButtonPrefab);
-            button.SetButton(sprite , building.name);
+            CreateBuildingsButton();
+            _informationArea.gameObject.SetActive(false);
+        }
 
-            _infiniteScroll.AddNewElement(button.transform);
+        public void Bind(GameController gameController)
+        {
+            _gameController = gameController;
+
+            onObjectSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(gameController.InputController.OnObjectSelected);
+            onObjectSelectSubscriber.Publisher.MessagePublisher += GetSelectedObjectData;
+        }
+
+        private void InformationAreaStatus(bool status)
+        {
+            _informationArea.gameObject.SetActive(status);
+        }
+
+        private void GetSelectedObjectData(object sender, Message<OnSelectEvent<ISelectable>> e)
+        {
+            if (e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
+
+            IProduct[] products = null;
+            if (e.GenericMessage.selectedObject is IProducer)
+                products = ((IProducer)e.GenericMessage.selectedObject).Products;
+
+            PassInformationAreaData(e.GenericMessage.selectedObject, products);
+        }
+
+        private void PassInformationAreaData(ISelectable selectable, IProduct[] products = null)
+        {
+            _informationArea.gameObject.SetActive(true);
+            _informationArea.Flush();
+            _informationArea.SetInformationArea(selectable, products);
+        }
+
+        private void CreateBuildingsButton()
+        {
+            var factory = BuildingFactory.Instance;
+
+            for (int i = 0; i < factory.FactorySettingsArr.Length; i++)
+            {
+                var building = factory.FactorySettingsArr[i].productPrefab;
+                var sprite = building.GetComponent<SpriteRenderer>().sprite;
+                var button = Instantiate(_buildingButtonPrefab);
+                button.SetButton(sprite, building.name);
+
+                _infiniteScroll.AddNewElement(button.transform);
+            }
         }
     }
 }

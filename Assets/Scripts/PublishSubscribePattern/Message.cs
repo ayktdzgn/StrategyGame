@@ -1,10 +1,13 @@
 using System;
 
-public class Message<T> : EventArgs
+namespace Core.PublishSubscribe
 {
-    public T GenericMessage { get; set; }
-    public Message(T message)
+    public class Message<T> : EventArgs
     {
-        GenericMessage = message;
+        public T GenericMessage { get; set; }
+        public Message(T message)
+        {
+            GenericMessage = message;
+        }
     }
 }

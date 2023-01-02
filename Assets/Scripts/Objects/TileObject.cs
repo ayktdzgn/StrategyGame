@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TileObject : MonoBehaviour
+namespace Core.Objects
 {
-    
+    public class TileObject : MonoBehaviour
+    {
+
+    }
 }

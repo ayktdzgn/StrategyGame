@@ -1,8 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core.Objects;
 using UnityEngine;
 
-public class UnitFactory : Factory<Unit>
+namespace Core.Factory
 {
-    
+    public class UnitFactory : Factory<Unit>
+    {
+
+    }
 }

@@ -1,42 +1,43 @@
-using System.Collections;
-using System.Collections.Generic;
-using Core.Pathfinding;
 using UnityEngine;
+using Core.View;
+using Core.Singleton;
 
-public class GameController : Singleton<GameController>
+namespace Core.Controllers
 {
-    [SerializeField] GameView _gameView;
-    GridController _gridController;
-    InputController _inputController;
-    BuildingController _buildingController;
-
-    public GridController GridController => _gridController;
-    public InputController InputController => _inputController;
-    public BuildingController BuildingController => _buildingController;
-
-    public override void Awake()
+    public class GameController : Singleton<GameController>
     {
-        base.Awake();
-        _gridController = GetComponentInChildren<GridController>();
-        _inputController = GetComponentInChildren<InputController>();
-        _buildingController = GetComponentInChildren<BuildingController>();
-    }
+        [SerializeField] GameView _gameView;
+        GridController _gridController;
+        InputController _inputController;
+        BuildingController _buildingController;
 
-    private void Start()
-    {
-        _gameView.Bind(this);
-        Init();
-    }
+        public GridController GridController => _gridController;
+        public InputController InputController => _inputController;
+        public BuildingController BuildingController => _buildingController;
 
-    private void Init()
-    {
-        _gridController.GenerateGrid();
-    }
+        public override void Awake()
+        {
+            base.Awake();
+            _gridController = GetComponentInChildren<GridController>();
+            _inputController = GetComponentInChildren<InputController>();
+            _buildingController = GetComponentInChildren<BuildingController>();
+        }
 
-    //If we needed State Pattern
-    private void Update()
-    {
-        _inputController.InputUpdate();
-    }
+        private void Start()
+        {
+            _gameView.Bind(this);
+            Init();
+        }
 
+        private void Init()
+        {
+            _gridController.GenerateGrid();
+        }
+
+        //If we needed State Pattern
+        private void Update()
+        {
+            _inputController.InputUpdate();
+        }
+    }
 }

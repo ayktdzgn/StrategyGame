@@ -1,37 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.Controllers;
+using Core.Interfaces;
+using Core.Factory;
 using UnityEngine;
 
-public class Building : Entity, IAttackable
+namespace Core.Objects
 {
-    bool _isAlive = true;
-    public bool IsAlive => _isAlive;
-
-    public IAttackable GetDamage(int damage)
+    public class Building : Entity, IAttackable
     {
-        _currentHealth = _currentHealth - damage >= 0 ? _currentHealth - damage : 0;
-        if (_currentHealth == 0)
+        bool _isAlive = true;
+        public bool IsAlive => _isAlive;
+
+        public IAttackable GetDamage(int damage)
         {
-            Die();
-            return null;
+            _currentHealth = _currentHealth - damage >= 0 ? _currentHealth - damage : 0;
+            if (_currentHealth == 0)
+            {
+                Die();
+                return null;
+            }
+            return this;
         }
-        return this;
-    }
 
-    public virtual void Die()
-    {
-        _isAlive = false;
-        BuildingFactory.Instance.RefuseProduct(_name, this);
-        GameController.Instance.GridController.ReleaseGridTiles(GetPosition(),_width,_height);
-    }
+        public virtual void Die()
+        {
+            _isAlive = false;
+            BuildingFactory.Instance.RefuseProduct(_name, this);
+            GameController.Instance.GridController.ReleaseGridTiles(GetPosition(), _width, _height);
+        }
 
-    public Vector2Int GetSize()
-    {
-        return new Vector2Int(_width, _height);
-    }
+        public Vector2Int GetSize()
+        {
+            return new Vector2Int(_width, _height);
+        }
 
-    public Vector2 GetPosition()
-    {
-        return transform.position;
+        public Vector2 GetPosition()
+        {
+            return transform.position;
+        }
     }
 }

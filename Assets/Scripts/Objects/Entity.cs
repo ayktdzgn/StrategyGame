@@ -1,39 +1,42 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.Interfaces;
+using Core.ScriptableObjects;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-public abstract class Entity : MonoBehaviour , ISelectable
+namespace Core.Objects
 {
-    [SerializeField] protected EntityInfo _entityInfo;
-
-    protected int _width;
-    protected int _height;
-
-    protected string _name;
-    protected Sprite _sprite;
-
-    protected int _health;
-    protected int _currentHealth;
-
-    public int Width => _width;
-    public int Height => _height;
-
-    public Sprite GetSprite { get => _sprite; }
-    public string GetName { get => _name; }
-
-    protected SpriteRenderer _spriteRenderer;
-
-    protected virtual void Awake()
+    [RequireComponent(typeof(SpriteRenderer))]
+    public abstract class Entity : MonoBehaviour, ISelectable
     {
-        _width = _entityInfo.size.x;
-        _height = _entityInfo.size.y;
-        _name = _entityInfo.entityName;
-        _sprite = _entityInfo.sprite;
-        _health = _entityInfo.health;
-        _currentHealth = _entityInfo.health;
+        [SerializeField] protected EntityInfo _entityInfo;
 
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _spriteRenderer.sprite = _sprite;
+        protected int _width;
+        protected int _height;
+
+        protected string _name;
+        protected Sprite _sprite;
+
+        protected int _health;
+        protected int _currentHealth;
+
+        public int Width => _width;
+        public int Height => _height;
+
+        public Sprite GetSprite { get => _sprite; }
+        public string GetName { get => _name; }
+
+        protected SpriteRenderer _spriteRenderer;
+
+        protected virtual void Awake()
+        {
+            _width = _entityInfo.size.x;
+            _height = _entityInfo.size.y;
+            _name = _entityInfo.entityName;
+            _sprite = _entityInfo.sprite;
+            _health = _entityInfo.health;
+            _currentHealth = _entityInfo.health;
+
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer.sprite = _sprite;
+        }
     }
 }

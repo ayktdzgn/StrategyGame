@@ -1,84 +1,89 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core.Interfaces;
+using Core.PublishSubscribe;
 using UnityEngine;
 
-public class AttackCommandController : MonoBehaviour
+namespace Core.Controllers
 {
-    Subscriber<OnSelectEvent<ISelectable>> onSelectSubscriber;
-    Subscriber<OnAttackableSelectEvent<IAttackable>> onAttackableSelectSubscriber;
-
-    List<IAttacker> _attackerObjectList = new List<IAttacker>();
-    IAttackable _targetAttackable;
-
-    private void Start()
+    public class AttackCommandController : MonoBehaviour
     {
-        onSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(GameController.Instance.InputController.OnObjectSelected);
-        onSelectSubscriber.Publisher.MessagePublisher += SetAttackerObjects;
+        Subscriber<OnSelectEvent<ISelectable>> onSelectSubscriber;
+        Subscriber<OnAttackableSelectEvent<IAttackable>> onAttackableSelectSubscriber;
 
-        onAttackableSelectSubscriber = new Subscriber<OnAttackableSelectEvent<IAttackable>>(GameController.Instance.InputController.OnAttackableObjectSelected);
-        onAttackableSelectSubscriber.Publisher.MessagePublisher += SetAttackableSelectedObjects;
-    }
+        List<IAttacker> _attackerObjectList = new List<IAttacker>();
+        IAttackable _targetAttackable;
 
-    private void SetAttackerObjects(object sender, Message<OnSelectEvent<ISelectable>> message)
-    {
-        if (message.GenericMessage.selectedObject == null) { ClearSelectedAttackerList(); return; }
-        if (message.GenericMessage.selectedObject is IAttacker attacker)
+        private void Start()
         {
-            if (!_attackerObjectList.Contains(attacker))
+            onSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(GameController.Instance.InputController.OnObjectSelected);
+            onSelectSubscriber.Publisher.MessagePublisher += SetAttackerObjects;
+
+            onAttackableSelectSubscriber = new Subscriber<OnAttackableSelectEvent<IAttackable>>(GameController.Instance.InputController.OnAttackableObjectSelected);
+            onAttackableSelectSubscriber.Publisher.MessagePublisher += SetAttackableSelectedObjects;
+        }
+
+        private void SetAttackerObjects(object sender, Message<OnSelectEvent<ISelectable>> message)
+        {
+            if (message.GenericMessage.selectedObject == null) { ClearSelectedAttackerList(); return; }
+            if (message.GenericMessage.selectedObject is IAttacker attacker)
             {
-                _attackerObjectList.Add(attacker);
+                if (!_attackerObjectList.Contains(attacker))
+                {
+                    _attackerObjectList.Add(attacker);
+                }
+                else
+                {
+                    _attackerObjectList.Remove(attacker);
+                }
             }
             else
             {
-                _attackerObjectList.Remove(attacker);
+                ClearSelectedAttackerList();
             }
         }
-        else
-        {
-            ClearSelectedAttackerList();
-        }
-    }
 
-    private void SetAttackableSelectedObjects(object sender, Message<OnAttackableSelectEvent<IAttackable>> message)
-    {
-        if (message.GenericMessage.selectedObject != null)
+        private void SetAttackableSelectedObjects(object sender, Message<OnAttackableSelectEvent<IAttackable>> message)
         {
-            _targetAttackable = message.GenericMessage.selectedObject;
-
-            if (_targetAttackable is IAttacker attacker && _attackerObjectList.Contains(attacker))
+            if (message.GenericMessage.selectedObject != null)
             {
-                _attackerObjectList.Remove(attacker);
-            }
+                _targetAttackable = message.GenericMessage.selectedObject;
 
-            RefreshAttackerList();
+                if (_targetAttackable is IAttacker attacker && _attackerObjectList.Contains(attacker))
+                {
+                    _attackerObjectList.Remove(attacker);
+                }
+
+                RefreshAttackerList();
+                for (int i = 0; i < _attackerObjectList.Count; i++)
+                {
+                    if (_targetAttackable.IsAlive)
+                        _attackerObjectList[i].Attack(_targetAttackable);
+                }
+            }
+            else
+            {
+                _targetAttackable = null;
+                for (int i = 0; i < _attackerObjectList.Count; i++)
+                {
+                    _attackerObjectList[i].StopAttack();
+                }
+            }
+        }
+
+        private void RefreshAttackerList()
+        {
             for (int i = 0; i < _attackerObjectList.Count; i++)
             {
-                if (_targetAttackable.IsAlive)
-                _attackerObjectList[i].Attack(_targetAttackable);
+                if (_attackerObjectList[i] is IAttackable attackable && !attackable.IsAlive)
+                    _attackerObjectList.RemoveAt(i);
             }
         }
-        else
+
+        private void ClearSelectedAttackerList()
         {
             _targetAttackable = null;
-            for (int i = 0; i < _attackerObjectList.Count; i++)
-            {
-                _attackerObjectList[i].StopAttack();
-            }
+            _attackerObjectList.Clear();
         }
-    }
-
-    private void RefreshAttackerList()
-    {
-        for (int i = 0; i < _attackerObjectList.Count; i++)
-        {
-            if (_attackerObjectList[i] is IAttackable attackable && !attackable.IsAlive)
-                _attackerObjectList.RemoveAt(i);
-        }
-    }
-
-    private void ClearSelectedAttackerList()
-    {
-        _targetAttackable = null;
-        _attackerObjectList.Clear();
     }
 }

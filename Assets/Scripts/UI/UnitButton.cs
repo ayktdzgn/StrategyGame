@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
+using Core.Interfaces;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class UnitButton : ProductButton
+namespace Core.UI
 {
-    private void Start()
+    public class UnitButton : ProductButton
     {
-        _button.onClick.AddListener(()=>
+        private void Start()
         {
-            if(SelectedObject == null) { Debug.Log("Selected object null"); return; }
-            if (SelectedObject is IProducer)
+            _button.onClick.AddListener(() =>
             {
-                ((IProducer)SelectedObject).Produce(Product);
-            }
-        });
+                if (SelectedObject == null) { Debug.Log("Selected object null"); return; }
+                if (SelectedObject is IProducer)
+                {
+                    ((IProducer)SelectedObject).Produce(Product);
+                }
+            });
+        }
     }
 }

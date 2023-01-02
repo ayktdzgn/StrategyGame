@@ -1,6 +1,8 @@
-﻿using System;
-public interface IAttacker
+﻿namespace Core.Interfaces
 {
-    public void Attack(IAttackable attackable);
-    public void StopAttack();
+    public interface IAttacker
+    {
+        public void Attack(IAttackable attackable);
+        public void StopAttack();
+    }
 }

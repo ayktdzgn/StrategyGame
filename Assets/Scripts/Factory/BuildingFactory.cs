@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Core.Objects;
 using UnityEngine;
-
-public class BuildingFactory : Factory<Building>
+namespace Core.Factory
 {
-    
+    public class BuildingFactory : Factory<Building>
+    {
+
+    }
 }
