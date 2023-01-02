@@ -12,7 +12,6 @@ public abstract class Factory<T> : Singleton<Factory<T>> where T: MonoBehaviour
         public int count;
     }
 
-    [SerializeField] protected Pool<T> _poolPrefab;
     [SerializeField] private FactorySettings[] _factorySettings;
     Dictionary<string, Pool<T>> _poolDic = new Dictionary<string, Pool<T>>();
 
@@ -24,11 +23,10 @@ public abstract class Factory<T> : Singleton<Factory<T>> where T: MonoBehaviour
         base.Awake();
         for (int i = 0; i < _factorySettings.Length; i++)
         {
-            var pool = Instantiate(_poolPrefab, transform);
-            pool.name = _factorySettings[i].productPrefab.name;
-            pool.Init(_factorySettings[i].productPrefab, _factorySettings[i].count);
+            var pool = new Pool<T>(_factorySettings[i].productPrefab, _factorySettings[i].count,transform);
+            pool.Init();
 
-            _poolDic.Add(pool.name, pool.GetComponent<Pool<T>>());
+            _poolDic.Add(_factorySettings[i].productPrefab.name, pool);
         }
     }
 
