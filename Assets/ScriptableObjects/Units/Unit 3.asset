@@ -17,7 +17,7 @@ MonoBehaviour:
   entityName: Unit 3
   health: 10
   damage: 2
-  attackRange: 1
-  attackCooldown: 2
-  movementSpeed: 2
+  attackRange: 2
+  attackCooldown: 1
+  movementSpeed: 3
   selectedColor: {r: 0.94509804, g: 0.47843137, b: 0.03137255, a: 1}

@@ -24,8 +24,8 @@ namespace Core.Objects
         public virtual void Die()
         {
             _isAlive = false;
-            BuildingFactory.Instance.RefuseProduct(_name, this);
             GameController.Instance.GridController.ReleaseGridTiles(GetPosition(), _width, _height);
+            BuildingFactory.Instance.RefuseProduct(_name, this);
         }
 
         public Vector2Int GetSize()

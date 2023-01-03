@@ -99,7 +99,7 @@ namespace Core.Controllers
             {
                 for (int j = 0; j < height; j++)
                 {
-                    _pathfindingGrid.SetTileOccupiedStatus((int)(x + i), (int)(y + j), true);
+                    _pathfindingGrid.SetTileOccupiedStatus((int)(x + i), (int)(y + j), false);
                 }
             }
         }

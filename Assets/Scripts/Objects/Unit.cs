@@ -146,8 +146,8 @@ namespace Core.Objects
         public void Die()
         {
             _isAlive = false;
-            UnitFactory.Instance.RefuseProduct(_name, this);
             GameController.Instance.GridController.RelaseOccupition(GetPosition(), _width, _height);
+            UnitFactory.Instance.RefuseProduct(_name, this);
         }
 
         public Vector2Int GetSize()

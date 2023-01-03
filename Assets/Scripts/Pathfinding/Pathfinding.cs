@@ -33,17 +33,19 @@ namespace Core.Path
             var tile = _grid.GetGridObject(x, y);
             return tile.isBuildable;
         }
-
+        //Set tile is buildable or not
         public void SetTileBuildableStatus(int x, int y , bool isBuildable)
         {
             var tile = _grid.GetGridObject(x, y);
             tile.isBuildable = isBuildable;
         }
+        //Set tile is walkable or not
         public void SetTileWalkableStatus(int x, int y , bool isWalkable)
         {
             var tile = _grid.GetGridObject(x, y);
             tile.isWalkable = isWalkable;
         }
+        //Set tile is occupied or not
         public void SetTileOccupiedStatus(int x, int y, bool isOccupied)
         {
             var tile = _grid.GetGridObject(x, y);
