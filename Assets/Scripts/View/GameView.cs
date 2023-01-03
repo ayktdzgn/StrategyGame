@@ -3,6 +3,7 @@ using Core.Factory;
 using Core.Interfaces;
 using Core.PublishSubscribe;
 using Core.UI;
+using Core.Objects;
 using UnityEngine;
 
 namespace Core.View
@@ -42,8 +43,8 @@ namespace Core.View
             if (e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
 
             IProduct[] products = null;
-            if (e.GenericMessage.selectedObject is IProducer)
-                products = ((IProducer)e.GenericMessage.selectedObject).Products;
+            if (e.GenericMessage.selectedObject is IProducer producer)
+                products = producer.Products;
 
             PassInformationAreaData(e.GenericMessage.selectedObject, products);
         }

@@ -34,8 +34,8 @@ namespace Core.UI
             set
             {
                 _product = value;
-                Name = value.GetName;
-                SetProductImage(value.GetSprite);
+                Name = value.EntityInfo.name;
+                SetProductImage(value.EntityInfo.sprite);
             }
         }
 

@@ -34,7 +34,7 @@ namespace Core.Objects
         //Produce product from factory
         public void Produce(IProduct product)
         {
-            var unit = UnitFactory.Instance.GetNewProduct(product.GetName);
+            var unit = UnitFactory.Instance.GetNewProduct(product.EntityInfo.name);
             unit.transform.position = Pathfinding.Instance.Grid.GetGridObjectPositions(transform.position);
             unit.Move(_spawnPoint);
         }

@@ -20,7 +20,19 @@ SpriteAtlas:
       readable: 0
       crunchedCompression: 0
       sRGB: 1
-    platformSettings: []
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 1024
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
     packingSettings:
       serializedVersion: 2
       padding: 4
@@ -31,27 +43,27 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: 6a39a38d6584e4bca891509cdb047ae9, type: 3}
-    - {fileID: 2800000, guid: b13b7fec8b6d34e2d934e744b81ff9e6, type: 3}
-    - {fileID: 2800000, guid: f777b20336c8d4d4685a6f6cb59164ed, type: 3}
-    - {fileID: 2800000, guid: 00ee85f172f064a2c91ddc19029d08fa, type: 3}
-    - {fileID: 2800000, guid: 72c0af8090340494fa3f83e6e2faa9ef, type: 3}
+    - {fileID: 2800000, guid: 35bf6291745f74ddea8d92e97f77ff75, type: 3}
+    - {fileID: 2800000, guid: ccaed0ece972842a4a2662f0bba5864f, type: 3}
+    - {fileID: 2800000, guid: 1e62d3df726804735a8e5c96e1b398e4, type: 3}
+    - {fileID: 2800000, guid: f22d6fa8149974235b88bbd105fcc4d4, type: 3}
+    - {fileID: 2800000, guid: 6ad94bbcebcf849dca2f94921adaf2e8, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: 72c0af8090340494fa3f83e6e2faa9ef, type: 3}
-  - {fileID: 21300000, guid: 00ee85f172f064a2c91ddc19029d08fa, type: 3}
-  - {fileID: 21300000, guid: f777b20336c8d4d4685a6f6cb59164ed, type: 3}
-  - {fileID: 21300000, guid: b13b7fec8b6d34e2d934e744b81ff9e6, type: 3}
-  - {fileID: 21300000, guid: 6a39a38d6584e4bca891509cdb047ae9, type: 3}
+  - {fileID: 21300000, guid: 35bf6291745f74ddea8d92e97f77ff75, type: 3}
+  - {fileID: 21300000, guid: f22d6fa8149974235b88bbd105fcc4d4, type: 3}
+  - {fileID: 21300000, guid: 6ad94bbcebcf849dca2f94921adaf2e8, type: 3}
+  - {fileID: 21300000, guid: ccaed0ece972842a4a2662f0bba5864f, type: 3}
+  - {fileID: 21300000, guid: 1e62d3df726804735a8e5c96e1b398e4, type: 3}
   m_PackedSpriteNamesToIndex:
-  - soldier3
-  - soldier2
-  - soldier1
-  - PowerPlant
-  - barracks
+  - Barracks-32
+  - Soldier2-32
+  - Soldier3-32
+  - PowerPlant-32
+  - Soldier1-32
   m_RenderDataMap: {}
   m_Tag: SpriteAtlas
   m_IsVariant: 0

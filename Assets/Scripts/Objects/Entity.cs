@@ -23,6 +23,7 @@ namespace Core.Objects
 
         public Sprite GetSprite { get => _sprite; }
         public string GetName { get => _name; }
+        public EntityInfo EntityInfo { get => _entityInfo; set => _entityInfo = value; }
 
         protected SpriteRenderer _spriteRenderer;
 

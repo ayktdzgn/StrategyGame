@@ -1,6 +1,7 @@
 using Core.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
+using Core.Objects;
 
 namespace Core.UI
 {
