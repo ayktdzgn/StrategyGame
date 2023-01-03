@@ -14,7 +14,7 @@ namespace Core.UI
 
         ScrollRect _scrollRect;
         RectTransform _contentRectTransform;
-        RectTransform[] _rtChildren;
+        RectTransform[] _rtChildren = { };
         private float _width, _height;
         private float _childWidth, _childHeight;
 
@@ -33,11 +33,6 @@ namespace Core.UI
             {
                 throw new System.InvalidOperationException("InfiniteScroll can not be vertical and horizontal at the same time!");
             }
-        }
-
-        private void Start()
-        {
-            Init();
         }
 
         public void Init()
@@ -61,7 +56,7 @@ namespace Core.UI
                 for (int i = 0; i < _rtChildren.Length; i++)
                 {
                     var size = (_height / _rtChildren.Length) - 2 * _itemSpacing;
-                    _rtChildren[i].sizeDelta = new Vector2(size, size);
+                    _rtChildren[i].sizeDelta = new Vector2(_width, size);
                 }
             }
 
@@ -73,13 +68,22 @@ namespace Core.UI
             else
                 InitializeContentHorizontal();
         }
-
+        //Add new element in scroll, Reset object size and set it again in Init
         public void AddNewElement(Transform element)
         {
+            ResetObjectsSize();
             element.SetParent(_contentRectTransform);
             Init();
         }
-
+        //Set objects size zero
+        private void ResetObjectsSize()
+        {
+            for (int i = 0; i < _rtChildren.Length; i++)
+            {
+                _rtChildren[i].sizeDelta = Vector2.zero;
+            }
+        }
+        //Initialize objects for horizontal view
         private void InitializeContentHorizontal()
         {
             float originX = 0 - (_width * 0.5f);
@@ -91,7 +95,7 @@ namespace Core.UI
                 _rtChildren[i].localPosition = childPos;
             }
         }
-
+        //Initialize objects for vertical view
         private void InitializeContentVertical()
         {
             float originY = _height / 2;
@@ -105,12 +109,12 @@ namespace Core.UI
                 _rtChildren[i].localPosition = childPos;
             }
         }
-
+        //Input events
         public void OnBeginDrag(PointerEventData eventData)
         {
             _lastDragPosition = eventData.position;
         }
-
+        //Input events
         public void OnDrag(PointerEventData eventData)
         {
             if (_scrollRect.vertical)
@@ -124,7 +128,7 @@ namespace Core.UI
 
             _lastDragPosition = eventData.position;
         }
-
+        //Input events
         public void OnScroll(PointerEventData eventData)
         {
             if (_scrollRect.vertical)
@@ -136,7 +140,7 @@ namespace Core.UI
                 _isPositiveDrag = eventData.scrollDelta.y < 0;
             }
         }
-
+        //Input events
         public void OnViewScroll()
         {
             if (_scrollRect.vertical)
@@ -148,7 +152,7 @@ namespace Core.UI
                 HandleHorizontalScroll();
             }
         }
-
+        //Handle vertical scroll for order of objects
         private void HandleVerticalScroll()
         {
             int currItemIndex = _isPositiveDrag ? 0 : _scrollRect.content.childCount - 1;
@@ -175,7 +179,7 @@ namespace Core.UI
             currItem.position = newPos;
             currItem.SetSiblingIndex(endItemIndex);
         }
-
+        //Handle horizontal scroll for order of objects
         private void HandleHorizontalScroll()
         {
             int currItemIndex = _isPositiveDrag ? _scrollRect.content.childCount - 1 : 0;
@@ -201,7 +205,7 @@ namespace Core.UI
             currItem.position = newPos;
             currItem.SetSiblingIndex(endItemIndex);
         }
-
+        //Check if the object reacht bottom-top or left-right corners
         private bool ReachedThreshold(Transform item)
         {
             if (_scrollRect.vertical)

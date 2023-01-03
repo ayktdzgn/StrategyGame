@@ -118,7 +118,6 @@ namespace Core.Objects
                     attackable = AttackHandler.Attack(transform, attackable, _damage, grid, _attackRange, attackableSize, attackablePosition);
                     _attackCoolDownTimer = 0;
 
-                    Debug.Log("Attack! - " + attackable);
                     yield return new WaitForEndOfFrame();
                 }
                 else

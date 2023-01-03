@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1007379495443523266}
   - component: {fileID: 4996156589159554446}
   m_Layer: 0
-  m_Name: PowerPlant
+  m_Name: Power Plant
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
