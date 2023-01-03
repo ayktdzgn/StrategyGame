@@ -21,7 +21,7 @@ namespace Core.Controllers
             onMovePointSetter = new Subscriber<Vector2Int>(GameController.Instance.InputController.OnGetPointPosition);
             onMovePointSetter.Publisher.MessagePublisher += MoveUnitsSelectedPoint;
         }
-
+        //Set IMobile list and Set selected color if it selected
         private void SetSelectedObjects(object sender, Message<OnSelectEvent<ISelectable>> message)
         {
             if (message.GenericMessage.selectedObject == null) { ClearSelectedMobileList(); return; }
@@ -43,7 +43,7 @@ namespace Core.Controllers
                 ClearSelectedMobileList();
             }
         }
-
+        //Set IMobile list's move destination
         private void MoveUnitsSelectedPoint(object sender, Message<Vector2Int> message)
         {
             RefreshMobileList();
@@ -52,7 +52,7 @@ namespace Core.Controllers
                 _mobileObjectList[i].Move(message.GenericMessage);
             }
         }
-
+        //Refresh mobile list by if it is alive
         private void RefreshMobileList()
         {
             for (int i = 0; i < _mobileObjectList.Count; i++)
@@ -61,7 +61,7 @@ namespace Core.Controllers
                     _mobileObjectList.RemoveAt(i);
             }
         }
-
+        //Cleare IMobile List and Set unselected color
         private void ClearSelectedMobileList()
         {
             for (int i = 0; i < _mobileObjectList.Count; i++)

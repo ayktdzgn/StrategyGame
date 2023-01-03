@@ -49,7 +49,12 @@ namespace Core.Path
             var tile = _grid.GetGridObject(x, y);
             tile.isOccupiedByUnit = isOccupied;
         }
-
+        /// <summary>
+        /// Get list for movement path
+        /// </summary>
+        /// <param name="startWorldPosition">Start world position</param>
+        /// <param name="endWorldPosition">End world position</param>
+        /// <returns>Move path</returns>
         public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition)
         {
             _grid.GetXY(startWorldPosition, out int startX, out int startY);

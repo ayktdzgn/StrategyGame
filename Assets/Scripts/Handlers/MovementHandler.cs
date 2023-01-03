@@ -12,6 +12,13 @@ namespace Core.Handlers
         private List<Vector3> _pathVectorList = new List<Vector3>();
         private Action _stopAction;
 
+        /// <summary>
+        /// Handle each objects movement
+        /// </summary>
+        /// <param name="speed">movement speed</param>
+        /// <param name="currentPathIndex">movement path start index</param>
+        /// <param name="pathVectorList">movement path</param>
+        /// <param name="stopAction">Do something(Action) when it finish</param>
         public MovementHandler(float speed, int currentPathIndex, List<Vector3> pathVectorList, Action stopAction = null)
         {
             _speed = speed;
@@ -26,6 +33,11 @@ namespace Core.Handlers
             _stopAction?.Invoke();
         }
 
+        /// <summary>
+        /// Movement Coroutine
+        /// </summary>
+        /// <param name="mobileTransform"> Set mobile object transform </param>
+        /// <returns></returns>
         public IEnumerator Movement(Transform mobileTransform)
         {
             Vector3 currentPos = mobileTransform.transform.position;

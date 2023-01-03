@@ -25,7 +25,11 @@ namespace Core.Controllers
             onSpawnPointSetter = new Subscriber<Vector2Int>(GameController.Instance.InputController.OnGetPointPosition);
             onSpawnPointSetter.Publisher.MessagePublisher += SetSpawnPoint;
         }
-
+        /// <summary>
+        /// Set selected building
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="message"></param>
         private void SetSelectedObject(object sender, Message<OnSelectEvent<ISelectable>> message)
         {
             if (_selectedBuilding != null) { SetProducerSpawnPointLocator(false); }
@@ -49,7 +53,11 @@ namespace Core.Controllers
                 _selectedBuilding = null;
             }
         }
-
+        /// <summary>
+        /// Set position to selected building's spawn point locator
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="message"></param>
         private void SetSpawnPoint(object sender, Message<Vector2Int> message)
         {
             if (_selectedBuilding != null && _selectedBuilding is IProducer producerBuilding)
@@ -60,7 +68,10 @@ namespace Core.Controllers
                 }
             }
         }
-
+        /// <summary>
+        /// Set if selected building is IProducer then set its spawn locator status
+        /// </summary>
+        /// <param name="status">It effects avaiblity</param>
         private void SetProducerSpawnPointLocator(bool status)
         {
             if (_selectedBuilding is IProducer producerBuilding)
@@ -68,21 +79,30 @@ namespace Core.Controllers
                 producerBuilding.SpawnPointLocatorStatus(status);
             }
         }
-
+        /// <summary>
+        /// Get new building
+        /// </summary>
+        /// <param name="buildName">product name for get from factory</param>
         public void CarryBuilding(string buildName)
         {
             if (_isCarryingBuilding) return;
             Building building = BuildingFactory.Instance.GetNewProduct(buildName);
             CarryBuilding(building);
         }
-
+        /// <summary>
+        /// Start Coroutine for carrying building with mouse position
+        /// </summary>
+        /// <param name="building">Spawned new building</param>
         private void CarryBuilding(Building building)
         {
             _isCarryingBuilding = true;
             _selectedBuilding = building;
             StartCoroutine(MoveBuilding(building));
         }
-
+        /// <summary>
+        /// Plant building if grid is avaible and set it there
+        /// </summary>
+        /// <param name="mousePos"></param>
         private void PlantBuilding(Vector2 mousePos)
         {
             if (_selectedBuilding == null || !_isCarryingBuilding) return;
@@ -96,7 +116,11 @@ namespace Core.Controllers
                 _selectedBuilding = null;
             }
         }
-
+        /// <summary>
+        /// Move selected building with mouse position
+        /// </summary>
+        /// <param name="building"></param>
+        /// <returns></returns>
         IEnumerator MoveBuilding(Building building)
         {
             while (_isCarryingBuilding)

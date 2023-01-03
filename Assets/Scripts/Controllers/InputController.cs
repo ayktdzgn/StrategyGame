@@ -19,7 +19,7 @@ namespace Core.Controllers
         IPublisher<Vector2Int> onGetPointPosition = new Publisher<Vector2Int>();
         public IPublisher<Vector2Int> OnGetPointPosition { get => onGetPointPosition; }
 
-
+        //Check mouse click and check raycast. Publish events with these cases
         public void InputUpdate()
         {
             Vector2 raycastPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -46,7 +46,7 @@ namespace Core.Controllers
             }
         }
     }
-
+    //Hold ISelectable object
     public class OnSelectEvent<T> where T : ISelectable
     {
         public T selectedObject;
@@ -56,7 +56,7 @@ namespace Core.Controllers
             this.selectedObject = selectedObject;
         }
     }
-
+    //Hold IAttackable object
     public class OnAttackableSelectEvent<T> where T : IAttackable
     {
         public T selectedObject;

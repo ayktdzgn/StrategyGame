@@ -45,6 +45,7 @@ namespace Core.UI
             _button = GetComponent<Button>();
         }
 
+        //Set Button's image
         private void SetProductImage(Sprite sprite)
         {
             _image.sprite = sprite;

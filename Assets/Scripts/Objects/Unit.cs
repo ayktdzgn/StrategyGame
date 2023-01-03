@@ -44,7 +44,7 @@ namespace Core.Objects
                 Debug.LogError("Set valid entity info! - Unit Info");
             }
         }
-
+        //If it selected then set selected color
         public void SetSelectedColor(bool status)
         {
             if (status)
@@ -52,7 +52,10 @@ namespace Core.Objects
             else
                 _spriteRenderer.color = Color.white;
         }
-
+        /// <summary>
+        /// Move object to destination
+        /// </summary>
+        /// <param name="destination">world position of destination</param>
         public void Move(Vector2Int destination)
         {
             var destinationPath = Pathfinding.Instance.FindPath(transform.position, (Vector2)destination);
@@ -63,7 +66,12 @@ namespace Core.Objects
             }
             Move(_movementSpeed, 0, destinationPath);
         }
-
+        /// <summary>
+        /// Move object from start node to end node
+        /// </summary>
+        /// <param name="speed"> movement speed </param>
+        /// <param name="currentPathIndex"> start node </param>
+        /// <param name="pathVectorList"> move path </param>
         private void Move(float speed, int currentPathIndex, List<Vector3> pathVectorList)
         {
             if (_movement != null) StopCoroutine(_movement);
@@ -77,7 +85,10 @@ namespace Core.Objects
         {
             _isMooving = false;
         }
-
+        /// <summary>
+        /// Start Attack Coroutine
+        /// </summary>
+        /// <param name="attackable">Set as attacked object</param>
         public void Attack(IAttackable attackable)
         {
             if (attackable == null) return;
@@ -85,12 +96,13 @@ namespace Core.Objects
             _attack = AttackCoroutine(attackable);
             StartCoroutine(_attack);
         }
-
+        //Stop Attack Coroutine
         public void StopAttack()
         {
             if (_attack != null) StopCoroutine(_attack);
         }
-
+        //Attack Coroutine, It wil have been waited until object stoped its movement
+        //It will continue attack until target object disapeared
         IEnumerator AttackCoroutine(IAttackable attackable)
         {
             yield return new WaitUntil(() => _isMooving == false);
@@ -118,6 +130,7 @@ namespace Core.Objects
             yield return null;
         }
 
+        //Get damage from attacker and set health
         public IAttackable GetDamage(int damage)
         {
             _currentHealth = _currentHealth - damage >= 0 ? _currentHealth - damage : 0;
@@ -129,6 +142,7 @@ namespace Core.Objects
             return this;
         }
 
+        //refuse itself to factory and release tile's occupition
         public void Die()
         {
             _isAlive = false;

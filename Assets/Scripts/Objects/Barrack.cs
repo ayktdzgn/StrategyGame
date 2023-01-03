@@ -20,18 +20,18 @@ namespace Core.Objects
         public Vector2Int SpawnPoint { get => _spawnPoint; set => _spawnPoint = value; }
         public Vector2Int SpawnPointLocatorSize => _spawnPointLocatorSize;
 
-
+        //Set Locator's gameobject active
         public void SpawnPointLocatorStatus(bool status)
         {
             _spawnPointLocator.gameObject.SetActive(status);
         }
-
+        //Set Locator position and set Spawn Point
         public void SetSpawnPointLocatorPosition(Vector2Int pos)
         {
             _spawnPoint = pos;
             _spawnPointLocator.transform.position = (Vector2)pos;
         }
-
+        //Produce product from factory
         public void Produce(IProduct product)
         {
             var unit = UnitFactory.Instance.GetNewProduct(product.GetName);

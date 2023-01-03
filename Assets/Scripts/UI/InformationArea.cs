@@ -16,7 +16,7 @@ namespace Core.UI
         {
             Flush();
         }
-
+        //Clear button from information area's product section
         public void Flush()
         {
             for (int i = 0; i < _childArr.Length; i++)
@@ -25,7 +25,11 @@ namespace Core.UI
             }
             _childArr = new Transform[0];
         }
-
+        /// <summary>
+        /// Set information Sprite and Text, If it has products, instantiate them
+        /// </summary>
+        /// <param name="selectable">Get selectable for show at Information area</param>
+        /// <param name="products">Create new product buttons</param>
         public void SetInformationArea(ISelectable selectable, IProduct[] products = null)
         {
             _informationImage.sprite = selectable.GetSprite;

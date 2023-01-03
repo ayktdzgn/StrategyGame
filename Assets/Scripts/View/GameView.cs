@@ -23,6 +23,7 @@ namespace Core.View
             _informationArea.gameObject.SetActive(false);
         }
 
+        //Bind with Game controller
         public void Bind(GameController gameController)
         {
             _gameController = gameController;
@@ -30,12 +31,12 @@ namespace Core.View
             onObjectSelectSubscriber = new Subscriber<OnSelectEvent<ISelectable>>(gameController.InputController.OnObjectSelected);
             onObjectSelectSubscriber.Publisher.MessagePublisher += GetSelectedObjectData;
         }
-
+        //Set information area's active
         private void InformationAreaStatus(bool status)
         {
             _informationArea.gameObject.SetActive(status);
         }
-
+        //If selected object is producer than products datas will pass to information area
         private void GetSelectedObjectData(object sender, Message<OnSelectEvent<ISelectable>> e)
         {
             if (e.GenericMessage.selectedObject == null) { InformationAreaStatus(false); return; }
@@ -46,14 +47,14 @@ namespace Core.View
 
             PassInformationAreaData(e.GenericMessage.selectedObject, products);
         }
-
+        //Set information area active and cleare previous datas and set new datas
         private void PassInformationAreaData(ISelectable selectable, IProduct[] products = null)
         {
             _informationArea.gameObject.SetActive(true);
             _informationArea.Flush();
             _informationArea.SetInformationArea(selectable, products);
         }
-
+        //Create building buttons to production menu
         private void CreateBuildingsButton()
         {
             var factory = BuildingFactory.Instance;

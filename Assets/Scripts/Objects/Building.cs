@@ -9,7 +9,7 @@ namespace Core.Objects
     {
         bool _isAlive = true;
         public bool IsAlive => _isAlive;
-
+        // Set given damage to object. If health value goes belove to 0 then it will die
         public IAttackable GetDamage(int damage)
         {
             _currentHealth = _currentHealth - damage >= 0 ? _currentHealth - damage : 0;
@@ -20,7 +20,7 @@ namespace Core.Objects
             }
             return this;
         }
-
+        //Refuse object to factory and relase occupied tiles
         public virtual void Die()
         {
             _isAlive = false;

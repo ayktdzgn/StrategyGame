@@ -20,6 +20,7 @@ namespace Core.Pool
             _transform = transform;
         }
 
+        //Init it self instantiate objects and push them into stack and queue
         public void Init()
         {
             for (int i = 0; i < _count; i++)
@@ -30,7 +31,7 @@ namespace Core.Pool
                 _poolStack.Push(obj);
             }
         }
-
+        //Get Object from pool and pop it from stack. If stack run out then pool will init itself
         public T GetObject()
         {
             if (_poolStack.Count < 1) Init();
@@ -43,7 +44,7 @@ namespace Core.Pool
 
             return obj;
         }
-
+        //Back object to pool and add it push it stack
         public void BackToPool(T obj)
         {
             obj.gameObject.SetActive(false);

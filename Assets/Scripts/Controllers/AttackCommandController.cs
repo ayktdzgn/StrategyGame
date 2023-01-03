@@ -22,7 +22,11 @@ namespace Core.Controllers
             onAttackableSelectSubscriber = new Subscriber<OnAttackableSelectEvent<IAttackable>>(GameController.Instance.InputController.OnAttackableObjectSelected);
             onAttackableSelectSubscriber.Publisher.MessagePublisher += SetAttackableSelectedObjects;
         }
-
+        /// <summary>
+        /// Set Attacker List with Publisher's events
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="message"></param>
         private void SetAttackerObjects(object sender, Message<OnSelectEvent<ISelectable>> message)
         {
             if (message.GenericMessage.selectedObject == null) { ClearSelectedAttackerList(); return; }
@@ -42,7 +46,11 @@ namespace Core.Controllers
                 ClearSelectedAttackerList();
             }
         }
-
+        /// <summary>
+        /// Set Attackable objects command
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="message"></param>
         private void SetAttackableSelectedObjects(object sender, Message<OnAttackableSelectEvent<IAttackable>> message)
         {
             if (message.GenericMessage.selectedObject != null)
@@ -71,6 +79,9 @@ namespace Core.Controllers
             }
         }
 
+        /// <summary>
+        /// Refresh Attacker List base on is it alive
+        /// </summary>
         private void RefreshAttackerList()
         {
             for (int i = 0; i < _attackerObjectList.Count; i++)
@@ -79,7 +90,7 @@ namespace Core.Controllers
                     _attackerObjectList.RemoveAt(i);
             }
         }
-
+        //Clear Attacker list and set target null
         private void ClearSelectedAttackerList()
         {
             _targetAttackable = null;

@@ -16,7 +16,7 @@ namespace Core.UI
         {
             _image = GetComponent<Image>();
         }
-
+        //AddListener to button for spawn building from factory
         private void Start()
         {
             GetComponent<Button>().onClick.AddListener(() =>
@@ -24,7 +24,11 @@ namespace Core.UI
                 InitializeBuilding();
             });
         }
-
+        /// <summary>
+        /// Set button image and text name
+        /// </summary>
+        /// <param name="sprite"></param>
+        /// <param name="name"></param>
         public void SetButton(Sprite sprite, string name)
         {
             _image.sprite = sprite;
@@ -32,7 +36,7 @@ namespace Core.UI
 
             _buildingName = name;
         }
-
+        //Spawn building from factory and carry it for plant
         public void InitializeBuilding()
         {
             GameController.Instance.BuildingController.CarryBuilding(_buildingName);

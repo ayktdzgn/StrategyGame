@@ -25,6 +25,12 @@ namespace Core.Factory
         public override void Awake()
         {
             base.Awake();
+            CreatePools();
+        }
+
+        //Create new pool
+        private void CreatePools()
+        {
             for (int i = 0; i < _factorySettings.Length; i++)
             {
                 var pool = new Pool<T>(_factorySettings[i].productPrefab, _factorySettings[i].count, transform);
@@ -33,7 +39,7 @@ namespace Core.Factory
                 _poolDic.Add(_factorySettings[i].productPrefab.name, pool);
             }
         }
-
+        //Get object with its type from pool
         public T GetNewProduct(string name)
         {
             if (_poolDic.TryGetValue(name, out Pool<T> value))
@@ -43,7 +49,7 @@ namespace Core.Factory
 
             return null;
         }
-
+        //Refuse object to pool
         public void RefuseProduct(string name, T product)
         {
             if (_poolDic.TryGetValue(name, out Pool<T> value))
